@@ -20,7 +20,7 @@ observability stack using only open source technologies and
 commodity hardware.
 
 
-### Stack
+## Stack
 
 - Python
 - FastAPI
@@ -35,7 +35,7 @@ commodity hardware.
 - Stress-NG
 
 
-#### Service Objectives
+## Service Objectives
 
 Latency P95 < 200ms
 
