@@ -1,1 +1,18 @@
+# Telemetry
+
+Telemetry is the process of collecting and transmitting operational data from systems for monitoring, analysis and decision making.
+
+Examples:
+
+- Metrics
+- Logs
+- Traces
+
+Related Technologies:
+
+- OpenTelemetry
+- Prometheus
+- Grafana
+
+
 
