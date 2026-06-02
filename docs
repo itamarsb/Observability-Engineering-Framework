@@ -30,3 +30,43 @@ Tools:
 
 - Prometheus
 - Grafana
+
+
+# Logs
+
+Logs record events occurring in systems and applications.
+
+Use Cases:
+
+- Troubleshooting
+- Auditing
+- Root Cause Analysis
+
+Tools:
+
+- Loki
+- Elasticsearch
+
+
+# Traces
+
+Traces follow a request through distributed systems.
+
+Components:
+
+- Trace
+- Span
+
+Benefits:
+
+- Performance Analysis
+- Dependency Mapping
+- Root Cause Investigation
+
+Tools:
+
+- OpenTelemetry
+- Tempo
+- Jaeger
+
+
