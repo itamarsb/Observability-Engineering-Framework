@@ -15,4 +15,18 @@ Related Technologies:
 - Grafana
 
 
+# Metrics
 
+Metrics are numerical measurements collected over time.
+
+Examples:
+
+- CPU Usage
+- Memory Usage
+- Request Rate
+- Error Rate
+
+Tools:
+
+- Prometheus
+- Grafana
