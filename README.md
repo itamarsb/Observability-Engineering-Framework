@@ -74,11 +74,13 @@ commodity hardware.
 
 [ ] PHYSICAL ENVIRONMENT PREPARATION:
 
+
 [ ] Installation of the Linux operating system on the Mini PC;
 
 [ ] Network configuration, permissions, and working directories.
 
 [ ] OBSERVABILITY ECOSYSTEM CONFIGURATION:
+
 
 [ ] Deployment of Prometheus, Grafana, Loki, and Tempo;
 
@@ -87,6 +89,8 @@ commodity hardware.
 [ ] Creation of scraping jobs in Prometheus.
 
 [ ] TEST APPLICATION DEVELOPMENT:
+
+
 [ ] Implementation of a back-end service with FastAPI;
 
 [ ] Definition of routes, handlers, and representative operations;
@@ -94,6 +98,7 @@ commodity hardware.
 [ ] Packaging and execution of the application.
 
 [ ] INSTRUMENTATION WITH OPENTELEMETRY:
+
 
 [ ] Addition of tracing middleware, metrics, and logs;
 
@@ -103,17 +108,20 @@ commodity hardware.
 
 [ ] LOAD TESTING AND METRICS COLLECTION:
 
+
 [ ] Execution of test scenarios on K6 (low, medium, and high load);
 
 [ ] Recording of latency, throughput, errors, and saturation.
 
 [ ] CHAOS ENGINEERING EXPERIMENTS:
 
+
 [ ] Application of CPU, memory, and network stressors with Stress-NG;
 
 [ ] Observation of the impact on SLIs.
 
 [ ] RESULTS ANALYSIS:
+
 
 [ ] Integrated visualization of telemetry in Grafana;
 
