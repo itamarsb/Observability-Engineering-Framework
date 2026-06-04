@@ -69,63 +69,64 @@ commodity hardware.
   - K6 (load testing);
   - Stress-NG (chaos engineering with overload testing).
 
-
+---
 ## Roadmap:
 
-[ ] PHYSICAL ENVIRONMENT PREPARATION:
+- [ ] PHYSICAL ENVIRONMENT PREPARATION:
 
 
-[ ] Installation of the Linux operating system on the Mini PC;
+- [ ] Installation of the Linux operating system on the Mini PC;
 
-[ ] Network configuration, permissions, and working directories.
+- [ ] Network configuration, permissions, and working directories.
 
-[ ] OBSERVABILITY ECOSYSTEM CONFIGURATION:
-
-
-[ ] Deployment of Prometheus, Grafana, Loki, and Tempo;
-
-[ ] Configuration of basic dashboards in Grafana;
-
-[ ] Creation of scraping jobs in Prometheus.
-
-[ ] TEST APPLICATION DEVELOPMENT:
+- [ ] OBSERVABILITY ECOSYSTEM CONFIGURATION:
 
 
-[ ] Implementation of a back-end service with FastAPI;
+- [ ] Deployment of Prometheus, Grafana, Loki, and Tempo;
 
-[ ] Definition of routes, handlers, and representative operations;
+- [ ] Configuration of basic dashboards in Grafana;
 
-[ ] Packaging and execution of the application.
+- [ ] Creation of scraping jobs in Prometheus.
 
-[ ] INSTRUMENTATION WITH OPENTELEMETRY:
-
-
-[ ] Addition of tracing middleware, metrics, and logs;
-
-[ ] Export to OpenTelemetry Collector;
-
-[ ] Standardization of the OTLP format.
-
-[ ] LOAD TESTING AND METRICS COLLECTION:
+- [ ] TEST APPLICATION DEVELOPMENT:
 
 
-[ ] Execution of test scenarios on K6 (low, medium, and high load);
+- [ ] Implementation of a back-end service with FastAPI;
 
-[ ] Recording of latency, throughput, errors, and saturation.
+- [ ] Definition of routes, handlers, and representative operations;
 
-[ ] CHAOS ENGINEERING EXPERIMENTS:
+- [ ] Packaging and execution of the application.
 
-
-[ ] Application of CPU, memory, and network stressors with Stress-NG;
-
-[ ] Observation of the impact on SLIs.
-
-[ ] RESULTS ANALYSIS:
+- [ ] INSTRUMENTATION WITH OPENTELEMETRY:
 
 
-[ ] Integrated visualization of telemetry in Grafana;
+- [ ] Addition of tracing middleware, metrics, and logs;
 
-[ ] Comparison with defined SLO targets;
+- [ ] Export to OpenTelemetry Collector;
 
-[ ] Interpretation of system behavior.
+- [ ] Standardization of the OTLP format.
 
+- [ ] LOAD TESTING AND METRICS COLLECTION:
+
+
+- [ ] Execution of test scenarios on K6 (low, medium, and high load);
+
+- [ ] Recording of latency, throughput, errors, and saturation.
+
+- [ ] CHAOS ENGINEERING EXPERIMENTS:
+
+
+- [ ] Application of CPU, memory, and network stressors with Stress-NG;
+
+- [ ] Observation of the impact on SLIs.
+
+- [ ] RESULTS ANALYSIS:
+
+
+- [ ] Integrated visualization of telemetry in Grafana;
+
+- [ ] Comparison with defined SLO targets;
+
+- [ ] Interpretation of system behavior.
+
+---
