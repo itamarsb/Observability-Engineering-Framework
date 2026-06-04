@@ -29,20 +29,29 @@ commodity hardware.
 - Grafana
 - Loki
 - Tempo
-- Linux
+- Linux Ubuntu Server LTS
 - NGINX
 - K6
 - Stress-NG
 
 
+## General and Specific Objectives:
+
+- Configure an experimental environment based on a Mini PC (focus on low-cost hardware) and the Linux Ubuntu Server LTS operating system;
+- Develop and instrument a back-end application using FastAPI and OpenTelemetry;
+- Integrate Prometheus, Grafana, Loki and Tempo for collecting, processing and analyzing telemetry signals;
+- Execute load tests using K6 and chaos experiments with Stress-NG;
+- Evaluate the system's behavior based on previously defined SLI indicators and SLO targets.
+
+
 ## Service Objectives
 
-Latency P95 < 200ms
+- Latency P95 < 200ms;
 
-Error Rate < 1%
+- Error Rate < 1%;
 
-Availability > 99%
+- Availability > 99%;
 
-CPU Usage < 80%
+- CPU Usage < 80%.
 
 
