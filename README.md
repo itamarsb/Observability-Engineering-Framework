@@ -1,4 +1,5 @@
 # Observability-Engineering-Framework
+
 Final Project for the Undergraduate Degree in Computer Engineering, developing an Observability Engineering Framework using only open-source software and low-cost hardware.
 
 # Open Source Observability Framework Lab
@@ -47,11 +48,25 @@ commodity hardware.
 ## Service Objectives
 
 - Latency P95 < 200ms;
-
 - Error Rate < 1%;
-
 - Availability > 99%;
-
 - CPU Usage < 80%.
 
 
+## Experimental Environment:
+
+- Hardware: Intel Core i7 Mini PC, operating as a local server (NGINX);
+- Operating System: Compatible Linux distribution (Ubuntu Server LTS);
+- Back-end Application: API developed in Python using FastAPI;
+- Telemetry Layer: Instrumentation with OpenTelemetry SDK;
+- Observability Services:
+  - Prometheus (metrics collection);
+  - Grafana (visualization);
+  - Loki (log storage);
+  - Tempo (distributed traces);
+  - OpenTelemetry Collector (routing and standardization of telemetry).
+- Testing Tools:
+  - K6 (load testing);
+  - Stress-NG (chaos engineering with overload testing).
+
+  
