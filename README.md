@@ -2,6 +2,7 @@
 
 Final Project for the Undergraduate Degree in Computer Engineering, developing an Observability Engineering Framework using only open-source software and low-cost hardware.
 
+
 # Open Source Observability Framework Lab
 
 A practical observability framework built with OpenTelemetry,
