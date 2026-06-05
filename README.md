@@ -46,6 +46,79 @@ commodity hardware.
 - Evaluate the system's behavior based on previously defined SLI indicators and SLO targets.
 
 
+# Telemetry
+
+Telemetry is the process of collecting and transmitting operational data from systems for monitoring, analysis and decision making.
+
+Examples:
+
+- Metrics
+- Logs
+- Traces
+
+Related Technologies:
+
+- OpenTelemetry
+- Prometheus
+- Grafana
+
+
+# Metrics
+
+Metrics are numerical measurements collected over time.
+
+Examples:
+
+- CPU Usage
+- Memory Usage
+- Request Rate
+- Error Rate
+
+Tools:
+
+- Prometheus
+- Grafana
+
+
+# Logs
+
+Logs record events occurring in systems and applications.
+
+Use Cases:
+
+- Troubleshooting
+- Auditing
+- Root Cause Analysis
+
+Tools:
+
+- Loki
+- Elasticsearch
+
+
+# Traces
+
+Traces follow a request through distributed systems.
+
+Components:
+
+- Trace
+- Span
+
+Benefits:
+
+- Performance Analysis
+- Dependency Mapping
+- Root Cause Investigation
+
+Tools:
+
+- OpenTelemetry
+- Tempo
+- Jaeger
+
+
+
 ## Service Objectives
 
 - Latency P95 < 200ms;
@@ -130,3 +203,5 @@ commodity hardware.
 - [ ] Interpretation of system behavior.
 
 ---
+
+
