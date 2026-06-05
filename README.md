@@ -63,7 +63,7 @@ Related Technologies:
 - Grafana
 
 
-# Metrics
+## Metrics
 
 Metrics are numerical measurements collected over time.
 
@@ -80,7 +80,7 @@ Tools:
 - Grafana
 
 
-# Logs
+## Logs
 
 Logs record events occurring in systems and applications.
 
@@ -96,7 +96,7 @@ Tools:
 - Elasticsearch
 
 
-# Traces
+## Traces
 
 Traces follow a request through distributed systems.
 
