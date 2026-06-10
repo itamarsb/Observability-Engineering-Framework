@@ -37,25 +37,25 @@ Ubuntu Server LTS
 
 ## Hardware Lab
 
-![Hardware](docs/images/Ubuntu_Server_01.jpg)
+![Hardware](../images/Ubuntu_Server_01.jpg)
 
 ## Distribution selection
 
-![Distribution](docs/images/Ubuntu_Server_02.jpg)
+![Distribution](../images/Ubuntu_Server_02.jpg)
 
 ## Partitioning
 
-![Partitioning](docs/images/Ubuntu_Server_05.jpg)
+![Partitioning](../images/Ubuntu_Server_05.jpg)
 
 ## Ubuntu Server Installation
 
-![Installation](docs/images/Ubuntu_Server_06.jpg)
+![Installation](../images/Ubuntu_Server_06.jpg)
 
 ## First Login
 
-![Login](docs/images/Ubuntu_Server_09.jpg)
+![Login](../images/Ubuntu_Server_09.jpg)
 
 ## Finalization
 
-![Finalization](docs/images/Ubuntu_Server_10.jpg)
+![Finalization](../images/Ubuntu_Server_10.jpg)
 
