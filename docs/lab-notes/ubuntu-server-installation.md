@@ -27,7 +27,35 @@ Ubuntu Server LTS
 
 ## Status
 
-- [ ] Ubuntu Installed
+- [X] Ubuntu Installed
 - [ ] Static IP Configured
 - [ ] SSH Enabled
 - [ ] Updates Installed
+
+
+# Laboratory Evidence
+
+## Hardware Lab
+
+![Hardware](docs/images/Ubuntu_Server_01.jpg)
+
+## Distribution selection
+
+![Distribution](docs/images/Ubuntu_Server_02.jpg)
+
+## Partitioning
+
+![Partitioning](docs/images/Ubuntu_Server_05.jpg)
+
+## Ubuntu Server Installation
+
+![Installation](docs/images/Ubuntu_Server_06.jpg)
+
+## First Login
+
+![Login](docs/images/Ubuntu_Server_09.jpg)
+
+## Finalization
+
+![Finalization](docs/images/Ubuntu_Server_10.jpg)
+
