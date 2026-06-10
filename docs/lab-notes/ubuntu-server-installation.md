@@ -41,11 +41,11 @@ Ubuntu Server LTS
 
 ## Distribution selection
 
-![Distribution](../images/Ubuntu_Server_02.jpg)
+![Distribution](../images/Ubuntu_Server_04.jpg)
 
 ## Partitioning
 
-![Partitioning](../images/Ubuntu_Server_05.jpg)
+![Partitioning](../images/Ubuntu_Server_02.jpg)
 
 ## Ubuntu Server Installation
 
