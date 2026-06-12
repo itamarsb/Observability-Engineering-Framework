@@ -60,7 +60,7 @@ Ubuntu Server LTS
 
 ## Finalization
 
-![Finalization](../images/Ubuntu_Server_10.jpg)
+![Finalization](../images/Ubuntu_Server_14.jpg)
 
 ## Network troubleshooting
 
