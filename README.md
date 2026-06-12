@@ -150,6 +150,8 @@ Tools:
 
 - [X] Installation of the Linux operating system on the Mini PC;
 
+![Preparation](../images/Ubuntu_Server_20.jpg)
+
 - [X] Network configuration, permissions, and working directories.
 
 
