@@ -84,3 +84,16 @@ ping google.com
 
 ## Updates Installed
 
+
+## Completely update the system:
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+## Then:
+
+```bash
+sudo reboot
+```
