@@ -101,6 +101,8 @@ sudo apt upgrade -y
 sudo reboot
 ```
 
+![Reboot](../images/Ubuntu_Server_21.jpg)
+
 ## After restarting:
 
 ```bash
