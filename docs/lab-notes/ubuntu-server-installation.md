@@ -70,3 +70,10 @@ Ubuntu Server LTS
 
 ![Internet](../images/Ubuntu_Server_16.jpg)
 
+## Validation
+
+```bash
+ping google.com
+```
+
+
