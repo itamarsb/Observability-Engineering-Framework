@@ -148,9 +148,9 @@ Tools:
 
 - PHYSICAL ENVIRONMENT PREPARATION:
 
-- [ ] Installation of the Linux operating system on the Mini PC;
+- [X] Installation of the Linux operating system on the Mini PC;
 
-- [ ] Network configuration, permissions, and working directories.
+- [X] Network configuration, permissions, and working directories.
 
 
 - OBSERVABILITY ECOSYSTEM CONFIGURATION:
