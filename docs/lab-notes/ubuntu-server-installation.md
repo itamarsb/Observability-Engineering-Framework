@@ -62,5 +62,11 @@ Ubuntu Server LTS
 
 ![Finalization](../images/Ubuntu_Server_14.jpg)
 
-## Network troubleshooting
+## Network Troubleshooting
+
+![Network](../images/Ubuntu_Server_15.jpg)
+
+## Internet Access Verification
+
+![Internet](../images/Ubuntu_Server_16.jpg)
 
