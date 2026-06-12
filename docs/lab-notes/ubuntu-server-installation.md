@@ -93,7 +93,7 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
-![Update](..images/Ubuntu_Server_19.jpg)
+![Update](../images/Ubuntu_Server_19.jpg)
 
 ## Then:
 
