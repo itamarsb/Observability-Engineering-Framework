@@ -72,8 +72,6 @@ Ubuntu Server LTS
 
 ## Validation
 
-![Valid](../images/Ubuntu_Server_17.jpg)
-
 ```bash
 ping google.com
 ```
@@ -86,6 +84,7 @@ ping google.com
 
 ## Updates Installed
 
+![Valid](../images/Ubuntu_Server_17.jpg)
 
 ## Completely update the system:
 
