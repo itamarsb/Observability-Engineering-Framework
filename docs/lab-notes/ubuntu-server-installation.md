@@ -4,12 +4,15 @@
 
 Prepare the laboratory environment for the Observability Engineering Framework.
 
-## Hardware
+## Ubuntu Server Lab Setup
 
-- Mini PC
-- Intel Core i7
+## Environment
+
+- Ubuntu Server 26.04 LTS
+- Intel i7-2600
 - 16 GB RAM
 - SSD 480 GB
+- Wi-Fi USB Realtek RTL8188FTV
 
 ## Operating System
 
