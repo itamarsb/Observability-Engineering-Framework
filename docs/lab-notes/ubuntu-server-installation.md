@@ -72,6 +72,8 @@ Ubuntu Server LTS
 
 ## Validation
 
+![Valid](../images/Ubuntu_Server_17.jpg)
+
 ```bash
 ping google.com
 ```
