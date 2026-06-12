@@ -76,4 +76,8 @@ Ubuntu Server LTS
 ping google.com
 ```
 
+## Result:
 
+- 0% packet loss
+- Successful DNS resolution
+- Internet connectivity confirmed
