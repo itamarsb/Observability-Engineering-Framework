@@ -28,9 +28,9 @@ Ubuntu Server LTS
 ## Status
 
 - [X] Ubuntu Installed
-- [ ] Static IP Configured
-- [ ] SSH Enabled
-- [ ] Updates Installed
+- [X] Static IP Configured
+- [X] SSH Enabled
+- [X] Updates Installed
 
 
 # Laboratory Evidence
@@ -58,4 +58,6 @@ Ubuntu Server LTS
 ## Finalization
 
 ![Finalization](../images/Ubuntu_Server_10.jpg)
+
+## Network troubleshooting
 
