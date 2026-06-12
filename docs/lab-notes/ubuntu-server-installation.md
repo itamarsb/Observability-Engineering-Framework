@@ -115,3 +115,4 @@ uname -a
 hostnamectl
 ```
 
+![After](../images/Ubuntu_Server_20.jpg)
