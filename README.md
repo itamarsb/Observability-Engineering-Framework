@@ -150,9 +150,11 @@ Tools:
 
 - [X] Installation of the Linux operating system on the Mini PC;
 
-![Preparation](/docs/images/Ubuntu_Server_20.jpg)
+![Preparation](/docs/images/Ubuntu_Server_18.jpg)
 
 - [X] Network configuration, permissions, and working directories.
+
+![Preparation](/docs/images/Ubuntu_Server_20.jpg)
 
 
 - OBSERVABILITY ECOSYSTEM CONFIGURATION:
