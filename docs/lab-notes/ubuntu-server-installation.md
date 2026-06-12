@@ -97,3 +97,16 @@ sudo apt upgrade -y
 ```bash
 sudo reboot
 ```
+
+## After restarting:
+
+```bash
+uname -a
+```
+
+## And:
+
+```bash
+hostnamectl
+```
+
