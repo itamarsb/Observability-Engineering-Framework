@@ -81,3 +81,6 @@ ping google.com
 - 0% packet loss
 - Successful DNS resolution
 - Internet connectivity confirmed
+
+## Updates Installed
+
