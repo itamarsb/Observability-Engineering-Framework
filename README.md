@@ -83,11 +83,6 @@ Examples:
 - Request Rate
 - Error Rate
 
-Tools:
-
-- Opentelemetry
-- Prometheus
-- Grafana
 
 ```mermaid
 flowchart TD
@@ -114,10 +109,6 @@ Use Cases:
 - Auditing
 - Root Cause Analysis
 
-Tools:
-
-- Loki
-- Grafana
 
 ```mermaid
 flowchart TD
@@ -145,12 +136,26 @@ Benefits:
 - Dependency Mapping
 - Root Cause Investigation
 
-Tools:
+```mermaid
+flowchart TD
 
-- OpenTelemetry
-- Tempo
-- Jaeger
+    USER[User or K6 Load Test]
+    NGINX[NGINX<br/>Reverse Proxy]
+    FASTAPI[FastAPI<br/>Instrumented Application]
+    OTELSDK[OpenTelemetry SDK<br/>Trace Generation]
+    OTELCOL[OpenTelemetry Collector<br/>Processing and Export]
+    TEMPO[Grafana Tempo<br/>Trace Storage]
+    GRAFANA[Grafana<br/>Trace Visualization]
 
+    USER --> NGINX
+    NGINX --> FASTAPI
+    FASTAPI --> OTELSDK
+    OTELSDK --> OTELCOL
+    OTELCOL --> TEMPO
+    TEMPO --> GRAFANA
+```
+
+---
 
 
 ## Service Objectives
