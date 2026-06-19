@@ -155,6 +155,26 @@ flowchart TD
     TEMPO --> GRAFANA
 ```
 
+```mermaid
+flowchart TD
+
+    K6[K6 Load Test]
+    NGINX[NGINX Reverse Proxy]
+    API[FastAPI Application]
+    OTELSDK[OpenTelemetry SDK]
+    OTELCOL[OpenTelemetry Collector]
+    TEMPO[Grafana Tempo]
+    GRAFANA[Grafana]
+
+    K6 --> NGINX
+    NGINX --> API
+    API --> OTELSDK
+    OTELSDK --> OTELCOL
+    OTELCOL --> TEMPO
+    TEMPO --> GRAFANA
+```
+
+
 ---
 
 
