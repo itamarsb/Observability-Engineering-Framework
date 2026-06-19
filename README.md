@@ -96,6 +96,7 @@ Tools:
 - Loki
 - Grafana
 
+```mermaid
 flowchart TD
 
     FastAPI
@@ -103,7 +104,7 @@ flowchart TD
 
     Loki
         --> Grafana
-
+```
 ---
 
 ## Traces
