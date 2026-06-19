@@ -192,14 +192,14 @@ flowchart TD
 
 ![Preparation](/docs/images/Ubuntu_Server_18.jpg)
 
-- [X] Network configuration, permissions, and working directories.
+- [X] Network configuration, permissions and working directories.
 
 ![Preparation](/docs/images/Ubuntu_Server_20.jpg)
 
 
 - OBSERVABILITY ECOSYSTEM CONFIGURATION:
 
-- [ ] Deployment of Prometheus, Grafana, Loki, and Tempo;
+- [ ] Deployment of Prometheus, Grafana, Loki and Tempo;
 
 - [ ] Configuration of basic dashboards in Grafana;
 
@@ -210,14 +210,14 @@ flowchart TD
 
 - [ ] Implementation of a back-end service with FastAPI;
 
-- [ ] Definition of routes, handlers, and representative operations;
+- [ ] Definition of routes, handlers and representative operations;
 
 - [ ] Packaging and execution of the application.
 
 
 - INSTRUMENTATION WITH OPENTELEMETRY:
 
-- [ ] Addition of tracing middleware, metrics, and logs;
+- [ ] Addition of tracing middleware, metrics and logs;
 
 - [ ] Export to OpenTelemetry Collector;
 
@@ -226,14 +226,14 @@ flowchart TD
 
 - LOAD TESTING AND METRICS COLLECTION:
 
-- [ ] Execution of test scenarios on K6 (low, medium, and high load);
+- [ ] Execution of test scenarios on K6 (low, medium and high load);
 
-- [ ] Recording of latency, throughput, errors, and saturation.
+- [ ] Recording of latency, throughput, errors and saturation.
 
 
 - CHAOS ENGINEERING EXPERIMENTS:
 
-- [ ] Application of CPU, memory, and network stressors with Stress-NG;
+- [ ] Application of CPU, memory and network stressors with Stress-NG;
 
 - [ ] Observation of the impact on SLIs.
 
