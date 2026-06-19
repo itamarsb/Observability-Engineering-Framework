@@ -56,11 +56,19 @@ Examples:
 - Logs
 - Traces
 
-Related Technologies:
+```mermaid
+flowchart LR
 
-- OpenTelemetry
-- Prometheus
-- Grafana
+    FastAPI --> OpenTelemetry
+
+    OpenTelemetry --> Prometheus
+    OpenTelemetry --> Loki
+    OpenTelemetry --> Tempo
+
+    Prometheus --> Grafana
+    Loki --> Grafana
+    Tempo --> Grafana
+```
 
 ---
 
