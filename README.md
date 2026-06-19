@@ -79,6 +79,7 @@ Tools:
 - Prometheus
 - Grafana
 
+---
 
 ## Logs
 
@@ -93,8 +94,17 @@ Use Cases:
 Tools:
 
 - Loki
-- Elasticsearch
+- Grafana
 
+flowchart TD
+
+    FastAPI
+        --> Loki
+
+    Loki
+        --> Grafana
+
+---
 
 ## Traces
 
