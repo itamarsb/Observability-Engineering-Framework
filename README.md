@@ -62,6 +62,7 @@ Related Technologies:
 - Prometheus
 - Grafana
 
+---
 
 ## Metrics
 
@@ -76,8 +77,22 @@ Examples:
 
 Tools:
 
+- Opentelemetry
 - Prometheus
 - Grafana
+
+```mermaid
+flowchart TD
+
+    Application
+        --> OpenTelemetry
+
+    OpenTelemetry
+        --> Prometheus
+
+    Prometheus
+        --> Grafana
+```
 
 ---
 
