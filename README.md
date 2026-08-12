@@ -1,3 +1,11 @@
+<div align="center">
+
+<p align="center">
+    <img src="docs/images/Framework_Observability_Overview_21_41_29.png">
+</p>
+</div>
+
+
 # Observability-Engineering-Framework
 
 Final Project for the Undergraduate Degree in Computer Engineering, developing an Observability Engineering Framework using only open-source software and low-cost hardware.
