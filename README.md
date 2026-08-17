@@ -244,22 +244,50 @@ Benefits:
 - Root Cause Investigation
 
 ```mermaid
-flowchart TD
 
-    USER[User or K6 Load Test]
-    NGINX[NGINX<br/>Reverse Proxy]
-    FASTAPI[FastAPI<br/>Instrumented Application]
-    OTELSDK[OpenTelemetry SDK<br/>Trace Generation]
-    OTELCOL[OpenTelemetry Collector<br/>Processing and Export]
-    TEMPO[Grafana Tempo<br/>Trace Storage]
-    GRAFANA[Grafana<br/>Trace Visualization]
+flowchart TB
+    subgraph REQUEST["1. Request Generation"]
+        USER["User"]
+        K6["k6<br/>Load Testing"]
+    end
 
-    USER --> NGINX
-    NGINX --> FASTAPI
-    FASTAPI --> OTELSDK
-    OTELSDK --> OTELCOL
-    OTELCOL --> TEMPO
-    TEMPO --> GRAFANA
+    subgraph APPLICATION["2. Request Processing"]
+        NGINX["NGINX<br/>Reverse Proxy"]
+        FASTAPI["FastAPI<br/>Instrumented Application"]
+    end
+
+    subgraph INSTRUMENTATION["3. Trace Generation"]
+        OTELSDK["OpenTelemetry SDK<br/>Automatic and Manual Instrumentation"]
+
+        TRACEDATA["Trace Data<br/>Trace ID • Span ID • Parent Span<br/>Route • Duration • Status • Attributes"]
+    end
+
+    subgraph COLLECTION["4. Collection and Processing"]
+        OTELCOL["OpenTelemetry Collector<br/>Receive • Enrich • Batch • Export"]
+    end
+
+    subgraph STORAGE["5. Trace Storage"]
+        TEMPO["Grafana Tempo<br/>Trace Storage and Indexing"]
+    end
+
+    subgraph ANALYSIS["6. Visualization and Analysis"]
+        GRAFANA["Grafana<br/>TraceQL Queries and Visualization"]
+
+        OUTCOMES["Request Flow Analysis<br/>Latency Investigation<br/>Error Identification<br/>Root Cause Analysis"]
+    end
+
+    USER -->|HTTP request| NGINX
+    K6 -->|Load-test request| NGINX
+    NGINX -->|Proxies request| FASTAPI
+
+    FASTAPI -->|Instrumented operations| OTELSDK
+    OTELSDK -->|Creates traces and spans| TRACEDATA
+    TRACEDATA -->|OTLP over gRPC or HTTP| OTELCOL
+
+    OTELCOL -->|Processes and exports traces| TEMPO
+    TEMPO -->|TraceQL queries and results| GRAFANA
+    GRAFANA -->|Supports| OUTCOMES
+
 ```
 
 
