@@ -1,7 +1,7 @@
 <div align="center">
 
 <p align="center">
-    <img src="docs/images/Framework_Observability_Overview_21_41_29.png">
+    <img src="docs/images/Framework_Observability_Overview_18_59_51.png">
 </p>
 </div>
 
