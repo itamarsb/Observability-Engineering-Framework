@@ -290,6 +290,51 @@ flowchart TB
 
 ```
 
+---
+
+## Repository structure
+
+```markdown
+
+Observability-Engineering-Framework/
+├── README.md
+├── LICENSE
+├── CITATION.cff
+├── .gitignore
+├── app/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── tests/
+├── config/
+│   ├── nginx/
+│   ├── otel-collector/
+│   ├── prometheus/
+│   ├── grafana/
+│   ├── loki/
+│   └── tempo/
+├── experiments/
+│   ├── k6/
+│   ├── stress-ng/
+│   ├── scenarios/
+│   └── experimental-matrix.md
+├── results/
+│   ├── raw/
+│   ├── processed/
+│   ├── charts/
+│   └── README.md
+├── scripts/
+├── docs/
+│   ├── architecture/
+│   ├── methodology/
+│   ├── lab-notes/
+│   ├── images/
+│   ├── runbooks/
+│   └── troubleshooting/
+└── tcc/
+    ├── tcc1/
+    └── tcc2/
+
+```
 
 ---
 
