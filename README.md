@@ -129,16 +129,42 @@ Examples:
 
 
 ```mermaid
-flowchart TD
 
-    Application
-        --> OpenTelemetry
+flowchart TB
+    subgraph WORKLOAD["1. Workload Generation"]
+        K6["k6<br/>Load Testing"]
+        STRESS["stress-ng<br/>CPU and Memory Pressure"]
+    end
 
-    OpenTelemetry
-        --> Prometheus
+    subgraph APPLICATION["2. Application Layer"]
+        NGINX["NGINX<br/>Reverse Proxy"]
+        FASTAPI["FastAPI<br/>Instrumented Application"]
 
-    Prometheus
-        --> Grafana
+        APPMETRICS["Application Metrics<br/>Request Rate • Error Rate<br/>P95 / P99 Latency<br/>Process CPU • Process Memory"]
+    end
+
+    subgraph COLLECTION["3. Metrics Collection and Storage"]
+        OTELCOL["OpenTelemetry Collector<br/>Internal Metrics"]
+        PROM["Prometheus<br/>Scraping and Time-Series Storage"]
+    end
+
+    subgraph ANALYSIS["4. Visualization and Evaluation"]
+        GRAFANA["Grafana<br/>Dashboards and PromQL"]
+        SLO["SLI / SLO Evaluation<br/>Availability • Latency<br/>Error Rate • Throughput"]
+    end
+
+    K6 -->|HTTP load| NGINX
+    NGINX -->|Proxies requests| FASTAPI
+    STRESS -.->|Resource pressure| FASTAPI
+
+    FASTAPI --- APPMETRICS
+
+    FASTAPI -->|Exposes /metrics<br/>scraped by Prometheus| PROM
+    OTELCOL -->|Exposes internal metrics<br/>scraped by Prometheus| PROM
+
+    PROM -->|PromQL queries| GRAFANA
+    GRAFANA -->|Dashboard analysis| SLO
+
 ```
 
 ---
