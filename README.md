@@ -181,13 +181,50 @@ Use Cases:
 
 
 ```mermaid
-flowchart TD
 
-    FastAPI
-        --> Loki
+flowchart TB
+    subgraph TRAFFIC["1. Traffic Generation"]
+        USER["User"]
+        K6["k6<br/>Load Testing"]
+    end
 
-    Loki
-        --> Grafana
+    subgraph SOURCES["2. Log Sources"]
+        NGINX["NGINX<br/>Reverse Proxy"]
+        FASTAPI["FastAPI<br/>Instrumented Application"]
+
+        NLOGS["NGINX Logs<br/>Access • Error"]
+        ALOGS["Application Logs<br/>Request • Error • Business Events"]
+    end
+
+    subgraph COLLECTION["3. Collection and Processing"]
+        OTELSDK["OpenTelemetry SDK<br/>Structured Log Generation"]
+        OTELCOL["OpenTelemetry Collector<br/>Receive • Enrich • Batch • Export"]
+    end
+
+    subgraph STORAGE["4. Log Storage"]
+        LOKI["Loki<br/>Log Aggregation and Storage"]
+    end
+
+    subgraph ANALYSIS["5. Visualization and Analysis"]
+        GRAFANA["Grafana<br/>LogQL Queries and Dashboards"]
+        OUTCOMES["Troubleshooting<br/>Error Investigation<br/>Root Cause Analysis"]
+    end
+
+    USER -->|HTTP requests| NGINX
+    K6 -->|Load-test requests| NGINX
+    NGINX -->|Proxies requests| FASTAPI
+
+    NGINX -->|Generates| NLOGS
+    FASTAPI -->|Generates| ALOGS
+
+    NLOGS -.->|Filelog receiver| OTELCOL
+    ALOGS -->|Structured logs| OTELSDK
+    OTELSDK -->|OTLP| OTELCOL
+
+    OTELCOL -->|Exports logs via OTLP/HTTP| LOKI
+    LOKI -->|LogQL queries| GRAFANA
+    GRAFANA -->|Supports| OUTCOMES
+
 ```
 ---
 
