@@ -65,17 +65,53 @@ Examples:
 - Traces
 
 ```mermaid
-flowchart LR
 
-    FastAPI --> OpenTelemetry
+flowchart TB
+    subgraph GEN["1. Traffic and Workload Generation"]
+        USER["User"]
+        K6["k6<br/>Load Testing"]
+        STRESS["stress-ng<br/>Resource Stress"]
+    end
 
-    OpenTelemetry --> Prometheus
-    OpenTelemetry --> Loki
-    OpenTelemetry --> Tempo
+    subgraph APP["2. Application Layer"]
+        NGINX["NGINX<br/>Reverse Proxy"]
+        FASTAPI["FastAPI<br/>Instrumented Application"]
+        OTELSDK["OpenTelemetry SDK<br/>Telemetry Generation"]
+    end
 
-    Prometheus --> Grafana
-    Loki --> Grafana
-    Tempo --> Grafana
+    subgraph COL["3. Collection and Processing"]
+        OTELCOL["OpenTelemetry Collector<br/>Receive, Process and Export"]
+        PROM["Prometheus<br/>Metrics Collection"]
+    end
+
+    subgraph STORE["4. Telemetry Storage"]
+        LOKI["Loki<br/>Logs"]
+        TEMPO["Tempo<br/>Traces"]
+    end
+
+    subgraph VIEW["5. Visualization and Analysis"]
+        GRAFANA["Grafana<br/>Dashboards and Analysis"]
+    end
+
+    USER -->|HTTP requests| NGINX
+    K6 -->|Load-test requests| NGINX
+    NGINX --> FASTAPI
+
+    STRESS -.->|CPU and memory pressure| FASTAPI
+
+    FASTAPI -->|Instrumentation| OTELSDK
+    OTELSDK -->|Logs and traces via OTLP| OTELCOL
+
+    PROM -->|Scrapes /metrics| FASTAPI
+    PROM -->|Scrapes internal metrics| OTELCOL
+
+    OTELCOL -->|Exports logs| LOKI
+    OTELCOL -->|Exports traces| TEMPO
+
+    PROM -->|Metrics queries| GRAFANA
+    LOKI -->|Log queries| GRAFANA
+    TEMPO -->|Trace queries| GRAFANA
+
 ```
 
 ---
