@@ -1,1 +1,157 @@
+# ==============================================================================
+# Python
+# ==============================================================================
 
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python packaging
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+junit.xml
+.tox/
+.nox/
+.hypothesis/
+
+# Type checking and linting
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# ==============================================================================
+# Environment variables and secrets
+# ==============================================================================
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+secrets/
+credentials/
+
+# ==============================================================================
+# Application runtime files
+# ==============================================================================
+
+*.log
+logs/
+*.pid
+*.pid.lock
+*.sock
+
+# SQLite and local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# ==============================================================================
+# Observability and experimental data
+# ==============================================================================
+
+# Generated raw and processed experimental results
+results/raw/*
+!results/raw/.gitkeep
+
+results/processed/*
+!results/processed/.gitkeep
+
+# Generated charts
+results/charts/*
+!results/charts/.gitkeep
+
+# Temporary telemetry data
+telemetry-data/
+prometheus-data/
+grafana-data/
+loki-data/
+tempo-data/
+
+# k6 outputs
+k6-results/
+*.k6.json
+
+# Profiling and benchmark outputs
+*.prof
+*.trace
+benchmark-results/
+
+# ==============================================================================
+# Editors and IDEs
+# ==============================================================================
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+
+.idea/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# ==============================================================================
+# Operating systems
+# ==============================================================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==============================================================================
+# Temporary and backup files
+# ==============================================================================
+
+tmp/
+temp/
+.cache/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# ==============================================================================
+# Archives
+# ==============================================================================
+
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
