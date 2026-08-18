@@ -1,14 +1,34 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: "If you use this project in academic or technical work, please cite it using the metadata below."
+
+title: "Observability Engineering Framework"
+type: software
+
 authors:
-- family-names: "YOUR_NAME_HERE"
-  given-names: "YOUR_NAME_HERE"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Lisa"
-  given-names: "Mona"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-title: "Observability-Engineering-Framework"
-version: 1.0.0
-doi: 10.5281/zenodo.1234
-date-released: 2026-08-17
+  - family-names: "de Sá Britto Júnior"
+    given-names: "Itamar"
+
+abstract: >-
+  An open-source observability engineering framework designed for a
+  low-cost laboratory environment. The project integrates a Python
+  FastAPI application with OpenTelemetry, Prometheus, Grafana, Loki,
+  Tempo, NGINX, k6, and stress-ng to support the collection and
+  analysis of metrics, logs, and traces under controlled workload
+  and resource-stress scenarios.
+
+keywords:
+  - observability
+  - OpenTelemetry
+  - Prometheus
+  - Grafana
+  - Loki
+  - Tempo
+  - FastAPI
+  - telemetry
+  - site reliability engineering
+  - performance testing
+
+license: MIT
+
+repository-code: "https://github.com/itamarsb/Observability-Engineering-Framework"
 url: "https://github.com/itamarsb/Observability-Engineering-Framework"
