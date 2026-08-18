@@ -1,432 +1,470 @@
 <div align="center">
 
-<p align="center">
-    <img src="docs/images/Framework_Observability_Overview_18_59_51.png">
-</p>
+<img
+  src="docs/images/Framework_Observability_Overview_18_59_51.png"
+  alt="Observability Engineering Framework"
+  width="100%"
+>
+
+# Observability Engineering Framework
+
+**An open-source observability laboratory for metrics, logs, traces, workload testing, and controlled resource-stress experiments.**
+
 </div>
 
+---
 
-# Observability-Engineering-Framework
+## About the project
 
-Final Project for the Undergraduate Degree in Computer Engineering, developing an Observability Engineering Framework using only open-source software and low-cost hardware.
+The Observability Engineering Framework is the final project of an undergraduate degree in Computer Engineering.
 
+Its purpose is to design, implement, and evaluate an observability environment using open-source technologies and low-cost hardware.
 
-# Open Source Observability Framework Lab
+The framework is being developed on a Mini PC running Ubuntu Server LTS. It will use an instrumented FastAPI application as the experimental workload and integrate metrics, logs, and traces through an observability stack composed of OpenTelemetry, Prometheus, Grafana, Loki, and Tempo.
 
-A practical observability framework built with OpenTelemetry,
-Prometheus, Grafana, Loki and Tempo.
+Controlled experiments will be conducted with k6 and stress-ng to evaluate application behavior under different workload levels and resource-pressure conditions.
 
-This project was developed as part of a Computer Engineering
-research project focused on reliability engineering,
-telemetry and distributed systems observability.
+> This repository is under active development. Components marked as planned in the roadmap may not yet be implemented or operational.
 
+---
 
-## Why?
+## Project objectives
 
-Modern distributed systems generate huge amounts of telemetry.
+### General objective
 
-This project demonstrates how an engineer can build a complete
-observability stack using only open source technologies and
-commodity hardware.
+Develop an open-source observability engineering framework capable of collecting, correlating, visualizing, and analyzing metrics, logs, and traces in a controlled experimental environment.
 
+### Specific objectives
 
-## Stack
+- Prepare a reproducible laboratory environment using low-cost hardware and Ubuntu Server LTS.
+- Develop and test a back-end application using Python and FastAPI.
+- Configure NGINX as a reverse proxy for the application.
+- Instrument the application using OpenTelemetry.
+- Collect and store metrics with Prometheus.
+- Collect structured logs and store them in Loki.
+- Collect distributed traces and store them in Tempo.
+- Correlate telemetry signals through Grafana.
+- Define service-level indicators and experimental service-level objectives.
+- Generate controlled HTTP workloads with k6.
+- Generate CPU and memory pressure with stress-ng.
+- Evaluate latency, availability, throughput, error rate, and resource utilization.
+- Document the experimental methodology, results, limitations, and conclusions.
 
+---
+
+## Current status
+
+The physical laboratory environment has been prepared, and the repository structure has been created.
+
+| Component | Status |
+|---|---|
+| Ubuntu Server installation | Completed |
+| Network configuration | Completed |
+| SSH access | Completed |
+| System updates | Completed |
+| Repository structure | Completed |
+| FastAPI application | Planned |
+| Automated application tests | Planned |
+| NGINX configuration | Planned |
+| Prometheus metrics | Planned |
+| OpenTelemetry instrumentation | Planned |
+| Loki log aggregation | Planned |
+| Tempo trace storage | Planned |
+| Grafana dashboards | Planned |
+| k6 workload scenarios | Planned |
+| stress-ng resource-stress scenarios | Planned |
+| Experimental execution | Planned |
+| Results analysis | Planned |
+
+---
+
+## Technology stack
+
+### Application and operating environment
+
+- Ubuntu Server LTS
 - Python
 - FastAPI
-- OpenTelemetry
+- Uvicorn
+- NGINX
+- systemd
+
+### Observability
+
+- OpenTelemetry SDK
+- OpenTelemetry Collector
 - Prometheus
 - Grafana
 - Loki
 - Tempo
-- Linux Ubuntu Server LTS
-- NGINX
-- K6
-- Stress-NG
 
+### Testing and experimentation
 
-## General and Specific Objectives:
+- pytest
+- Postman
+- Newman
+- k6
+- stress-ng
 
-- Configure an experimental environment based on a Mini PC (focus on low-cost hardware) and the Linux Ubuntu Server LTS operating system;
-- Develop and instrument a back-end application using FastAPI and OpenTelemetry;
-- Integrate Prometheus, Grafana, Loki and Tempo for collecting, processing and analyzing telemetry signals;
-- Execute load tests using K6 and chaos experiments with Stress-NG;
-- Evaluate the system's behavior based on previously defined SLI indicators and SLO targets.
+---
 
+## Telemetry signals
 
-# Telemetry
+The framework focuses on the three primary observability signals.
 
-Telemetry is the process of collecting and transmitting operational data from systems for monitoring, analysis and decision making.
+### Metrics
 
-Examples:
+Metrics provide numerical measurements of application and infrastructure behavior over time.
 
-- Metrics
-- Logs
-- Traces
+Planned measurements include:
+
+- Request rate
+- Error rate
+- Request latency
+- P95 and P99 latency
+- Application availability
+- Throughput
+- CPU utilization
+- Memory utilization
+
+### Logs
+
+Structured logs will provide contextual information about application and infrastructure events.
+
+Planned use cases include:
+
+- Request analysis
+- Error investigation
+- Operational troubleshooting
+- Event correlation
+- Root cause analysis
+
+### Traces
+
+Distributed traces will represent the path and duration of requests processed by the instrumented application.
+
+Planned trace information includes:
+
+- Trace ID
+- Span ID
+- Parent span
+- HTTP route
+- Request duration
+- Response status
+- Application attributes
+- Error information
+
+---
+
+## Planned architecture
+
+The following diagram represents the target architecture. It does not indicate that every component has already been implemented.
 
 ```mermaid
-
 flowchart TB
-    subgraph GEN["1. Traffic and Workload Generation"]
+    subgraph LOAD["Workload and resource stress"]
         USER["User"]
-        K6["k6<br/>Load Testing"]
-        STRESS["stress-ng<br/>Resource Stress"]
+        K6["k6"]
+        STRESS["stress-ng"]
     end
 
-    subgraph APP["2. Application Layer"]
-        NGINX["NGINX<br/>Reverse Proxy"]
-        FASTAPI["FastAPI<br/>Instrumented Application"]
-        OTELSDK["OpenTelemetry SDK<br/>Telemetry Generation"]
+    subgraph APPLICATION["Application layer"]
+        NGINX["NGINX"]
+        API["FastAPI and Uvicorn"]
+        OTELSDK["OpenTelemetry SDK"]
     end
 
-    subgraph COL["3. Collection and Processing"]
-        OTELCOL["OpenTelemetry Collector<br/>Receive, Process and Export"]
-        PROM["Prometheus<br/>Metrics Collection"]
+    subgraph COLLECTION["Collection and storage"]
+        COLLECTOR["OpenTelemetry Collector"]
+        PROMETHEUS["Prometheus"]
+        LOKI["Loki"]
+        TEMPO["Tempo"]
     end
 
-    subgraph STORE["4. Telemetry Storage"]
-        LOKI["Loki<br/>Logs"]
-        TEMPO["Tempo<br/>Traces"]
-    end
-
-    subgraph VIEW["5. Visualization and Analysis"]
-        GRAFANA["Grafana<br/>Dashboards and Analysis"]
+    subgraph ANALYSIS["Visualization and analysis"]
+        GRAFANA["Grafana"]
+        SLO["SLI and SLO evaluation"]
     end
 
     USER -->|HTTP requests| NGINX
-    K6 -->|Load-test requests| NGINX
-    NGINX --> FASTAPI
+    K6 -->|Controlled workload| NGINX
+    NGINX --> API
+    STRESS -.->|CPU and memory pressure| APPLICATION
 
-    STRESS -.->|CPU and memory pressure| FASTAPI
+    API --> OTELSDK
+    API -->|Metrics endpoint| PROMETHEUS
+    OTELSDK -->|Telemetry via OTLP| COLLECTOR
 
-    FASTAPI -->|Instrumentation| OTELSDK
-    OTELSDK -->|Logs and traces via OTLP| OTELCOL
+    COLLECTOR -->|Logs| LOKI
+    COLLECTOR -->|Traces| TEMPO
+    COLLECTOR -->|Collector metrics| PROMETHEUS
 
-    PROM -->|Scrapes /metrics| FASTAPI
-    PROM -->|Scrapes internal metrics| OTELCOL
-
-    OTELCOL -->|Exports logs| LOKI
-    OTELCOL -->|Exports traces| TEMPO
-
-    PROM -->|Metrics queries| GRAFANA
-    LOKI -->|Log queries| GRAFANA
-    TEMPO -->|Trace queries| GRAFANA
-
+    PROMETHEUS --> GRAFANA
+    LOKI --> GRAFANA
+    TEMPO --> GRAFANA
+    GRAFANA --> SLO
 ```
 
 ---
 
-## Metrics
+## Planned telemetry flow
 
-Metrics are numerical measurements collected over time.
+| Signal | Source | Collection | Storage and query | Visualization |
+|---|---|---|---|---|
+| Metrics | FastAPI and Collector | Prometheus scraping | Prometheus and PromQL | Grafana |
+| Logs | FastAPI and NGINX | OpenTelemetry Collector | Loki and LogQL | Grafana |
+| Traces | Instrumented FastAPI application | OpenTelemetry Collector | Tempo and TraceQL | Grafana |
 
-Examples:
-
-- CPU Usage
-- Memory Usage
-- Request Rate
-- Error Rate
-
-
-```mermaid
-
-flowchart TB
-    subgraph WORKLOAD["1. Workload Generation"]
-        K6["k6<br/>Load Testing"]
-        STRESS["stress-ng<br/>CPU and Memory Pressure"]
-    end
-
-    subgraph APPLICATION["2. Application Layer"]
-        NGINX["NGINX<br/>Reverse Proxy"]
-        FASTAPI["FastAPI<br/>Instrumented Application"]
-
-        APPMETRICS["Application Metrics<br/>Request Rate • Error Rate<br/>P95 / P99 Latency<br/>Process CPU • Process Memory"]
-    end
-
-    subgraph COLLECTION["3. Metrics Collection and Storage"]
-        OTELCOL["OpenTelemetry Collector<br/>Internal Metrics"]
-        PROM["Prometheus<br/>Scraping and Time-Series Storage"]
-    end
-
-    subgraph ANALYSIS["4. Visualization and Evaluation"]
-        GRAFANA["Grafana<br/>Dashboards and PromQL"]
-        SLO["SLI / SLO Evaluation<br/>Availability • Latency<br/>Error Rate • Throughput"]
-    end
-
-    K6 -->|HTTP load| NGINX
-    NGINX -->|Proxies requests| FASTAPI
-    STRESS -.->|Resource pressure| FASTAPI
-
-    FASTAPI --- APPMETRICS
-
-    FASTAPI -->|Exposes /metrics<br/>scraped by Prometheus| PROM
-    OTELCOL -->|Exposes internal metrics<br/>scraped by Prometheus| PROM
-
-    PROM -->|PromQL queries| GRAFANA
-    GRAFANA -->|Dashboard analysis| SLO
-
-```
+The exact telemetry pipelines may be adjusted during implementation and validation.
 
 ---
 
-## Logs
+## Preliminary SLI and SLO targets
 
-Logs record events occurring in systems and applications.
+The following values are initial experimental targets. They are not production guarantees and may be refined after the baseline measurements.
 
-Use Cases:
+| Indicator | Preliminary target |
+|---|---|
+| Availability | Greater than or equal to 99% during each test window |
+| Error rate | Less than 1% |
+| P95 latency | Less than 200 ms |
+| CPU utilization | Less than 80% under the defined baseline workload |
 
-- Troubleshooting
-- Auditing
-- Root Cause Analysis
+Each target will be evaluated within a documented workload scenario and measurement window.
 
-
-```mermaid
-
-flowchart TB
-    subgraph TRAFFIC["1. Traffic Generation"]
-        USER["User"]
-        K6["k6<br/>Load Testing"]
-    end
-
-    subgraph SOURCES["2. Log Sources"]
-        NGINX["NGINX<br/>Reverse Proxy"]
-        FASTAPI["FastAPI<br/>Instrumented Application"]
-
-        NLOGS["NGINX Logs<br/>Access • Error"]
-        ALOGS["Application Logs<br/>Request • Error • Business Events"]
-    end
-
-    subgraph COLLECTION["3. Collection and Processing"]
-        OTELSDK["OpenTelemetry SDK<br/>Structured Log Generation"]
-        OTELCOL["OpenTelemetry Collector<br/>Receive • Enrich • Batch • Export"]
-    end
-
-    subgraph STORAGE["4. Log Storage"]
-        LOKI["Loki<br/>Log Aggregation and Storage"]
-    end
-
-    subgraph ANALYSIS["5. Visualization and Analysis"]
-        GRAFANA["Grafana<br/>LogQL Queries and Dashboards"]
-        OUTCOMES["Troubleshooting<br/>Error Investigation<br/>Root Cause Analysis"]
-    end
-
-    USER -->|HTTP requests| NGINX
-    K6 -->|Load-test requests| NGINX
-    NGINX -->|Proxies requests| FASTAPI
-
-    NGINX -->|Generates| NLOGS
-    FASTAPI -->|Generates| ALOGS
-
-    NLOGS -.->|Filelog receiver| OTELCOL
-    ALOGS -->|Structured logs| OTELSDK
-    OTELSDK -->|OTLP| OTELCOL
-
-    OTELCOL -->|Exports logs via OTLP/HTTP| LOKI
-    LOKI -->|LogQL queries| GRAFANA
-    GRAFANA -->|Supports| OUTCOMES
-
-```
 ---
 
-## Traces
+## Experimental environment
 
-Traces follow a request through distributed systems.
+### Hardware
 
-Components:
+- Mini PC used as a local laboratory server
+- Intel Core i7-2600
+- 16 GB RAM
+- 480 GB SSD
 
-- Trace
-- Span
+### Operating system
 
-Benefits:
+- Ubuntu Server LTS
 
-- Performance Analysis
-- Dependency Mapping
-- Root Cause Investigation
+### Network and access
 
-```mermaid
+- Local network connectivity
+- Static IP configuration
+- SSH remote administration
 
-flowchart TB
-    subgraph REQUEST["1. Request Generation"]
-        USER["User"]
-        K6["k6<br/>Load Testing"]
-    end
+Detailed installation evidence is available in:
 
-    subgraph APPLICATION["2. Request Processing"]
-        NGINX["NGINX<br/>Reverse Proxy"]
-        FASTAPI["FastAPI<br/>Instrumented Application"]
-    end
+- [Ubuntu Server installation notes](docs/lab-notes/ubuntu-server-installation.md)
 
-    subgraph INSTRUMENTATION["3. Trace Generation"]
-        OTELSDK["OpenTelemetry SDK<br/>Automatic and Manual Instrumentation"]
+---
 
-        TRACEDATA["Trace Data<br/>Trace ID • Span ID • Parent Span<br/>Route • Duration • Status • Attributes"]
-    end
+## Experimental methodology
 
-    subgraph COLLECTION["4. Collection and Processing"]
-        OTELCOL["OpenTelemetry Collector<br/>Receive • Enrich • Batch • Export"]
-    end
+The planned experimental process consists of the following stages:
 
-    subgraph STORAGE["5. Trace Storage"]
-        TEMPO["Grafana Tempo<br/>Trace Storage and Indexing"]
-    end
+1. Establish a baseline under normal operating conditions.
+2. Execute controlled workloads with k6.
+3. Apply CPU and memory pressure with stress-ng.
+4. Collect metrics, logs, and traces.
+5. Repeat each scenario under equivalent conditions.
+6. Export and process the collected results.
+7. Compare measurements with the preliminary SLO targets.
+8. Analyze correlations among telemetry signals.
+9. Document findings, limitations, and conclusions.
 
-    subgraph ANALYSIS["6. Visualization and Analysis"]
-        GRAFANA["Grafana<br/>TraceQL Queries and Visualization"]
+The experimental matrix will be maintained in:
 
-        OUTCOMES["Request Flow Analysis<br/>Latency Investigation<br/>Error Identification<br/>Root Cause Analysis"]
-    end
+- [`experiments/experimental-matrix.md`](experiments/experimental-matrix.md)
 
-    USER -->|HTTP request| NGINX
-    K6 -->|Load-test request| NGINX
-    NGINX -->|Proxies request| FASTAPI
-
-    FASTAPI -->|Instrumented operations| OTELSDK
-    OTELSDK -->|Creates traces and spans| TRACEDATA
-    TRACEDATA -->|OTLP over gRPC or HTTP| OTELCOL
-
-    OTELCOL -->|Processes and exports traces| TEMPO
-    TEMPO -->|TraceQL queries and results| GRAFANA
-    GRAFANA -->|Supports| OUTCOMES
-
-```
+> stress-ng is used to generate controlled resource pressure. It is not presented in this project as a complete chaos-engineering platform.
 
 ---
 
 ## Repository structure
 
-```markdown
-
+```text
 Observability-Engineering-Framework/
-├── README.md
-├── LICENSE
-├── CITATION.cff
 ├── .gitignore
+├── CITATION.cff
+├── LICENSE
+├── README.md
 ├── app/
 │   ├── main.py
 │   ├── requirements.txt
 │   └── tests/
 ├── config/
+│   ├── grafana/
+│   ├── loki/
 │   ├── nginx/
 │   ├── otel-collector/
 │   ├── prometheus/
-│   ├── grafana/
-│   ├── loki/
 │   └── tempo/
-├── experiments/
-│   ├── k6/
-│   ├── stress-ng/
-│   ├── scenarios/
-│   └── experimental-matrix.md
-├── results/
-│   ├── raw/
-│   ├── processed/
-│   ├── charts/
-│   └── README.md
-├── scripts/
 ├── docs/
 │   ├── architecture/
-│   ├── methodology/
-│   ├── lab-notes/
 │   ├── images/
+│   ├── lab-notes/
+│   ├── methodology/
 │   ├── runbooks/
 │   └── troubleshooting/
+├── experiments/
+│   ├── k6/
+│   ├── scenarios/
+│   ├── stress-ng/
+│   └── experimental-matrix.md
+├── results/
+│   ├── charts/
+│   ├── processed/
+│   ├── raw/
+│   └── README.md
+├── scripts/
 └── tcc/
     ├── tcc1/
     └── tcc2/
-
 ```
 
 ---
 
+## Implementation roadmap
 
-## Service Objectives
+### 1. Repository foundation
 
-- Latency P95 < 200ms;
-- Error Rate < 1%;
-- Availability > 99%;
-- CPU Usage < 80%.
+- [x] Prepare the Ubuntu Server environment.
+- [x] Configure network access and SSH.
+- [x] Install operating system updates.
+- [x] Create the initial repository structure.
+- [x] Correct the project metadata and documentation.
 
+### 2. FastAPI application
 
-## Experimental Environment:
+- [ ] Implement the FastAPI application.
+- [ ] Define health-check and representative test endpoints.
+- [ ] Add dependency definitions.
+- [ ] Implement automated tests.
+- [ ] Validate endpoints with Postman and Newman.
 
-- Hardware: Intel Core i7 Mini PC, operating as a local server (NGINX);
-- Operating System: Compatible Linux distribution (Ubuntu Server LTS);
-- Back-end Application: API developed in Python using FastAPI;
-- Telemetry Layer: Instrumentation with OpenTelemetry SDK;
-- Observability Services:
-  - Prometheus (metrics collection);
-  - Grafana (visualization);
-  - Loki (log storage);
-  - Tempo (distributed traces);
-  - OpenTelemetry Collector (routing and standardization of telemetry).
-- Testing Tools:
-  - K6 (load testing);
-  - Stress-NG (chaos engineering with overload testing).
+### 3. Application service and reverse proxy
 
----
-## Roadmap:
+- [ ] Configure Uvicorn execution.
+- [ ] Create a systemd service.
+- [ ] Configure NGINX as a reverse proxy.
+- [ ] Validate startup, restart, and failure behavior.
 
-- PHYSICAL ENVIRONMENT PREPARATION:
+### 4. Metrics
 
-- [X] Installation of the Linux operating system on the Mini PC;
+- [ ] Expose application metrics.
+- [ ] Install and configure Prometheus.
+- [ ] Configure scraping targets.
+- [ ] Validate request, error, latency, and resource metrics.
 
-![Preparation](/docs/images/Ubuntu_Server_18.jpg)
+### 5. Traces
 
-- [X] Network configuration, permissions and working directories.
+- [ ] Instrument the FastAPI application.
+- [ ] Configure the OpenTelemetry Collector.
+- [ ] Configure Tempo.
+- [ ] Validate trace propagation and storage.
 
-![Preparation](/docs/images/Ubuntu_Server_20.jpg)
+### 6. Logs
 
+- [ ] Implement structured application logging.
+- [ ] Collect application and NGINX logs.
+- [ ] Configure Loki.
+- [ ] Validate log labels and correlation fields.
 
-- OBSERVABILITY ECOSYSTEM CONFIGURATION:
+### 7. Visualization and correlation
 
-- [ ] Deployment of Prometheus, Grafana, Loki and Tempo;
+- [ ] Provision Grafana data sources.
+- [ ] Create metrics dashboards.
+- [ ] Configure navigation between metrics, logs, and traces.
+- [ ] Validate telemetry correlation.
 
-- [ ] Configuration of basic dashboards in Grafana;
+### 8. Experimental design
 
-- [ ] Creation of scraping jobs in Prometheus.
+- [ ] Complete the experimental matrix.
+- [ ] Define baseline and workload scenarios.
+- [ ] Define repetition and measurement procedures.
+- [ ] Establish data collection and naming conventions.
 
+### 9. Workload and resource-stress implementation
 
-- TEST APPLICATION DEVELOPMENT:
+- [ ] Create k6 workload scripts.
+- [ ] Create stress-ng CPU and memory scenarios.
+- [ ] Validate workload reproducibility.
+- [ ] Document safety limits for the laboratory hardware.
 
-- [ ] Implementation of a back-end service with FastAPI;
+### 10. Experimental execution
 
-- [ ] Definition of routes, handlers and representative operations;
+- [ ] Execute the baseline.
+- [ ] Validate telemetry collection.
+- [ ] Execute controlled scenarios.
+- [ ] Perform the required repetitions.
+- [ ] Preserve raw experimental data.
 
-- [ ] Packaging and execution of the application.
+### 11. Analysis and documentation
 
-
-- INSTRUMENTATION WITH OPENTELEMETRY:
-
-- [ ] Addition of tracing middleware, metrics and logs;
-
-- [ ] Export to OpenTelemetry Collector;
-
-- [ ] Standardization of the OTLP format.
-
-
-- LOAD TESTING AND METRICS COLLECTION:
-
-- [ ] Execution of test scenarios on K6 (low, medium and high load);
-
-- [ ] Recording of latency, throughput, errors and saturation.
-
-
-- CHAOS ENGINEERING EXPERIMENTS:
-
-- [ ] Application of CPU, memory and network stressors with Stress-NG;
-
-- [ ] Observation of the impact on SLIs.
-
-
-- RESULTS ANALYSIS:
-
-- [ ] Integrated visualization of telemetry in Grafana;
-
-- [ ] Comparison with defined SLO targets;
-
-- [ ] Interpretation of system behavior.
+- [ ] Process collected data.
+- [ ] Generate tables and charts.
+- [ ] Compare results with the SLO targets.
+- [ ] Discuss findings and telemetry correlations.
+- [ ] Document limitations.
+- [ ] Write the conclusion.
 
 ---
+
+## Documentation
+
+Technical documentation is organized under the [`docs/`](docs/) directory.
+
+Planned documentation includes:
+
+- Architecture decisions
+- Installation procedures
+- Experimental methodology
+- Laboratory notes
+- Operational runbooks
+- Troubleshooting records
+- Results and limitations
+
+---
+
+## Reproducibility
+
+To improve reproducibility, the project will document:
+
+- Hardware characteristics
+- Operating system version
+- Application dependencies
+- Service configuration
+- Test scripts
+- Workload parameters
+- Resource-stress parameters
+- Measurement windows
+- Number of repetitions
+- Raw and processed results
+
+Generated runtime data, secrets, local databases, and temporary telemetry storage are excluded through `.gitignore`.
+
+---
+
+## Academic context
+
+This repository supports an undergraduate final project in Computer Engineering.
+
+The source code, configuration files, experimental procedures, and documentation are maintained here to support technical review, reproducibility, portfolio presentation, and future research development.
+
+If this project is used in academic or technical work, consult the citation metadata available in [`CITATION.cff`](CITATION.cff).
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+Copyright © 2026 Itamar de Sá Britto Júnior.
+
+
+---
+
 
 ## 📈 Repository Metrics
 
