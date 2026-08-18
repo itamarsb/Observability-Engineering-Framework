@@ -3,8 +3,8 @@
 <img
   src="docs/images/Framework_Observability_Overview_18_59_51.png"
   alt="Observability Engineering Framework"
-  width="100%"
->
+  width="100%">
+
 
 # Observability Engineering Framework
 
