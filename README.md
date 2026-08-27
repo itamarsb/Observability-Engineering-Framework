@@ -57,7 +57,7 @@ Develop an open-source observability engineering framework capable of collecting
 The physical laboratory environment has been prepared, and the repository structure has been created.
 
 | Component | Status |
-|---|---|
+|---|:---:|
 | Ubuntu Server installation | Completed |
 | Network configuration | Completed |
 | SSH access | Completed |
@@ -210,7 +210,7 @@ flowchart TB
 ## Planned telemetry flow
 
 | Signal | Source | Collection | Storage and query | Visualization |
-|---|---|---|---|---|
+|:---:|---|---|---|:---:|
 | Metrics | FastAPI and Collector | Prometheus scraping | Prometheus and PromQL | Grafana |
 | Logs | FastAPI and NGINX | OpenTelemetry Collector | Loki and LogQL | Grafana |
 | Traces | Instrumented FastAPI application | OpenTelemetry Collector | Tempo and TraceQL | Grafana |
