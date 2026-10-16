@@ -121,7 +121,7 @@ Setas contínuas indicam requisições e telemetria enviadas por quem as produz 
 Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma requisição, da orquestração das execuções e das etapas de avaliação: [`docs/architecture/`](docs/architecture/).
 
 | Endereço | Serviço | Acesso |
-|---|---|---|
+|:---:|:---:|:---:|
 | `LAB_BIND_IP:8080` | NGINX, ponto de entrada único | Gerador de carga e sonda, pela rede dedicada do laboratório |
 | `127.0.0.1:3000` / `9090` / `3100` / `3200` | Grafana / Prometheus / Loki / Tempo | Somente no servidor; a partir do notebook, por túnel SSH |
 | Rede do host `:9100` | Node Exporter | Coletado pelo Prometheus |
