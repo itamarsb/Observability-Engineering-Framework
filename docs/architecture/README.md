@@ -1,73 +1,73 @@
-# Architecture and workflows
+# Arquitetura e fluxos de trabalho
 
-Diagrams of the framework, written in [Mermaid](https://mermaid.js.org/) and rendered directly by GitHub. They describe the planned design and will be updated to the configuration actually deployed after the integration stage (Stage 4B).
+Diagramas do framework, escritos em [Mermaid](https://mermaid.js.org/) e renderizados diretamente pelo GitHub. Eles descrevem o desenho planejado e serão atualizados para a configuração efetivamente implantada após a etapa de integração (Etapa 4B).
 
-The overview diagram is in the main [README](../../README.md#architecture).
+O diagrama geral está no [README](../../README.md#arquitetura) principal.
 
-| # | Diagram | What it shows |
+| # | Diagrama | O que mostra |
 |---|---|---|
-| 1 | [Lab topology](#1-lab-topology) | Machines, networks, containers and published ports |
-| 2 | [Telemetry pipeline](#2-telemetry-pipeline) | How traces, metrics and logs travel from the application to the back-ends |
-| 3 | [Life of a request](#3-life-of-a-request) | One `GET /work` request and the telemetry it produces |
-| 4 | [Phases of a run](#4-phases-of-a-run) | Time windows of load and perturbation scenarios |
-| 5 | [Orchestration of a run](#5-orchestration-of-a-run) | What the orchestrator does from the pre-checks to the checksums |
-| 6 | [Data and evidence flow](#6-data-and-evidence-flow) | From raw run data to tables, figures and the article |
-| 7 | [Implementation and evaluation stages](#7-implementation-and-evaluation-stages) | Stages 0 to 11 and the protocol freeze |
+| 1 | [Topologia do laboratório](#1-topologia-do-laboratório) | Máquinas, redes, contêineres e portas publicadas |
+| 2 | [Pipeline de telemetria](#2-pipeline-de-telemetria) | Como traces, métricas e logs vão da aplicação até os back-ends |
+| 3 | [Percurso de uma requisição](#3-percurso-de-uma-requisição) | Uma requisição `GET /work` e a telemetria que ela produz |
+| 4 | [Fases de uma execução](#4-fases-de-uma-execução) | Janelas de tempo dos cenários de carga e de perturbação |
+| 5 | [Orquestração de uma execução](#5-orquestração-de-uma-execução) | O que o orquestrador faz, das verificações iniciais às somas de verificação |
+| 6 | [Fluxo de dados e evidências](#6-fluxo-de-dados-e-evidências) | Dos dados brutos de cada execução às tabelas, figuras e ao artigo |
+| 7 | [Etapas de implementação e avaliação](#7-etapas-de-implementação-e-avaliação) | Etapas 0 a 11 e o congelamento do protocolo |
 
 ---
 
-## 1. Lab topology
+## 1. Topologia do laboratório
 
 ```mermaid
 flowchart LR
     subgraph NB["Notebook · Windows 11"]
         subgraph WSL["WSL2 · Ubuntu"]
             K6["k6"]
-            PROBE["External probe"]
-            ORCH["Orchestrator<br/>and analysis"]
+            PROBE["Sonda externa"]
+            ORCH["Orquestrador<br/>e análise"]
         end
-        BROWSER["Browser<br/>localhost:3000"]
-        TERM["Windows Terminal<br/>SSH and tunnel"]
+        BROWSER["Navegador<br/>localhost:3000"]
+        TERM["Windows Terminal<br/>SSH e túnel"]
     end
 
-    ROUTER(["Wi-Fi router<br/>internet and updates only"])
+    ROUTER(["Roteador Wi-Fi<br/>somente internet e atualizações"])
 
-    subgraph SRV["Lab server · Ubuntu Server 26.04 LTS"]
+    subgraph SRV["Servidor do laboratório · Ubuntu Server 26.04 LTS"]
         SSHD["sshd :22"]
-        PERT["Perturbation scripts<br/>stress-ng units · tc netem"]
-        NODE["node-exporter<br/>host network :9100"]
-        subgraph DC["Docker Compose · network lab 172.30.0.0/24"]
-            NGINX["nginx<br/>published on 10.10.10.1:8080"]
+        PERT["Scripts de perturbação<br/>unidades stress-ng · tc netem"]
+        NODE["node-exporter<br/>rede do host :9100"]
+        subgraph DC["Docker Compose · rede lab 172.30.0.0/24"]
+            NGINX["nginx<br/>publicado em 10.10.10.1:8080"]
             API["api<br/>172.30.0.10:8000"]
             COL["collector"]
-            BACK["prometheus · loki · tempo · grafana<br/>published on 127.0.0.1 only"]
+            BACK["prometheus · loki · tempo · grafana<br/>publicados somente em 127.0.0.1"]
         end
     end
 
-    K6 -->|"HTTP · cable"| NGINX
-    PROBE -->|"HTTP · cable"| NGINX
-    ORCH -->|"SSH · cable"| SSHD
+    K6 -->|"HTTP · cabo"| NGINX
+    PROBE -->|"HTTP · cabo"| NGINX
+    ORCH -->|"SSH · cabo"| SSHD
     BROWSER --> TERM
-    TERM -->|"SSH · cable"| SSHD
-    SSHD -->|"restricted sudo"| PERT
-    SSHD -->|"tunnel to 127.0.0.1"| BACK
+    TERM -->|"SSH · cabo"| SSHD
+    SSHD -->|"sudo restrito"| PERT
+    SSHD -->|"túnel para 127.0.0.1"| BACK
     NGINX --> API --> COL --> BACK
-    NODE -.->|scraped| BACK
+    NODE -.->|scrape| BACK
     ROUTER -.-|Wi-Fi| TERM
     ROUTER -.-|Wi-Fi| SSHD
 ```
 
-The notebook and the server are linked by a dedicated Ethernet cable (`10.10.10.2` ↔ `10.10.10.1`, no gateway), which carries the workload, the probe and SSH. Wi-Fi is used only for internet access and updates, so its latency variation does not affect the measurements. Only NGINX is published on the lab network; the administrative interfaces are reachable only through the SSH tunnel.
+O notebook e o servidor são ligados por um cabo Ethernet dedicado (`10.10.10.2` ↔ `10.10.10.1`, sem gateway), que transporta a carga, a sonda e o SSH. O Wi-Fi é usado apenas para acesso à internet e atualizações, de modo que a sua variação de latência não afeta as medições. Somente o NGINX é publicado na rede do laboratório; as interfaces administrativas só são acessíveis pelo túnel SSH.
 
 ---
 
-## 2. Telemetry pipeline
+## 2. Pipeline de telemetria
 
 ```mermaid
 flowchart LR
-    subgraph APP["api container · OpenTelemetry SDK"]
+    subgraph APP["contêiner api · SDK do OpenTelemetry"]
         SDK_T["TracerProvider<br/>BatchSpanProcessor"]
-        SDK_M["MeterProvider<br/>export every 5 s"]
+        SDK_M["MeterProvider<br/>exportação a cada 5 s"]
         SDK_L["LoggerProvider<br/>BatchLogRecordProcessor"]
     end
 
@@ -77,13 +77,13 @@ flowchart LR
         EXP_T["exporter<br/>otlp_grpc/tempo"]
         EXP_M["exporter prometheus<br/>:8889"]
         EXP_L["exporter<br/>otlp_http/loki"]
-        SELF["internal metrics<br/>:8888"]
+        SELF["métricas internas<br/>:8888"]
     end
 
     NODE["Node Exporter<br/>:9100"]
-    TEMPO[("Tempo<br/>traces · 90 d")]
-    LOKI[("Loki<br/>logs · 90 d")]
-    PROM[("Prometheus<br/>metrics · 90 d")]
+    TEMPO[("Tempo<br/>traces · 90 dias")]
+    LOKI[("Loki<br/>logs · 90 dias")]
+    PROM[("Prometheus<br/>métricas · 90 dias")]
     GRAF["Grafana"]
 
     SDK_T -->|OTLP/HTTP| RCV
@@ -91,163 +91,163 @@ flowchart LR
     SDK_L -->|OTLP/HTTP| RCV
     RCV --> PROC
     PROC -->|traces| EXP_T
-    PROC -->|metrics| EXP_M
+    PROC -->|métricas| EXP_M
     PROC -->|logs| EXP_L
     EXP_T -->|"OTLP/gRPC :4317"| TEMPO
     EXP_L -->|"OTLP/HTTP /otlp"| LOKI
-    EXP_M -.->|"scraped · 5 s"| PROM
-    SELF -.->|"scraped · 5 s"| PROM
-    NODE -.->|"scraped · 5 s"| PROM
+    EXP_M -.->|"scrape · 5 s"| PROM
+    SELF -.->|"scrape · 5 s"| PROM
+    NODE -.->|"scrape · 5 s"| PROM
     TEMPO -->|TraceQL| GRAF
     LOKI -->|LogQL| GRAF
     PROM -->|PromQL| GRAF
 ```
 
-Traces and logs are **pushed** by the Collector to Tempo and Loki; metrics are exposed by the Collector and **pulled** by Prometheus. In Grafana, the `trace_id` carried by each log opens the matching trace in Tempo, and each trace links back to its logs.
+Traces e logs são **enviados** pelo Collector ao Tempo e ao Loki; as métricas são expostas pelo Collector e **coletadas** pelo Prometheus (*scrape*). No Grafana, o `trace_id` presente em cada log abre o trace correspondente no Tempo, e cada trace leva de volta aos seus logs.
 
 ---
 
-## 3. Life of a request
+## 3. Percurso de uma requisição
 
 ```mermaid
 sequenceDiagram
     autonumber
     participant K6 as k6 (notebook)
     participant NG as NGINX
-    participant API as FastAPI application
+    participant API as Aplicação FastAPI
     participant COL as OTel Collector
     participant BE as Tempo · Loki · Prometheus
 
-    K6->>NG: GET /work?n=20000 with X-Run-ID header
-    NG->>API: proxied over a keepalive connection
+    K6->>NG: GET /work?n=20000 com o cabeçalho X-Run-ID
+    NG->>API: encaminhada por uma conexão keepalive
     activate API
-    Note over API: server span GET /work starts<br/>run_id stored as a span attribute
-    API->>API: child span validar_entrada
-    API->>API: child span calcular_hash (SHA-256 applied n times)
-    Note over API: request_completed log emitted inside the span<br/>with trace_id and span_id
-    API-->>NG: 200 with n and digest
+    Note over API: início do span de servidor GET /work<br/>run_id gravado como atributo do span
+    API->>API: span filho validar_entrada
+    API->>API: span filho calcular_hash (SHA-256 aplicado n vezes)
+    Note over API: log request_completed emitido dentro do span<br/>com trace_id e span_id
+    API-->>NG: 200 com n e digest
     deactivate API
-    NG-->>K6: 200 with n and digest
-    Note over NG: JSON access log with request_time and run_id
-    Note over K6: success only if status is 200 and the digest is correct
-    API-)COL: spans, duration histogram and logs in batches (OTLP/HTTP)
-    COL-)BE: traces to Tempo, logs to Loki, metrics exposed for scraping
+    NG-->>K6: 200 com n e digest
+    Note over NG: log de acesso em JSON com request_time e run_id
+    Note over K6: sucesso somente se o status for 200 e o digest estiver correto
+    API-)COL: spans, histograma de duração e logs em lotes (OTLP/HTTP)
+    COL-)BE: traces para o Tempo, logs para o Loki, métricas expostas para scrape
 ```
 
-The same `trace_id` appears in the trace (Tempo) and in the log (Loki) of the request, which is what makes the correlation verifiable. The `run_id` links both to the run folder; it is never used as a metric label.
+O mesmo `trace_id` aparece no trace (Tempo) e no log (Loki) da requisição, e é isso que torna a correlação verificável. O `run_id` liga ambos à pasta da execução; ele nunca é usado como rótulo de métrica.
 
 ---
 
-## 4. Phases of a run
+## 4. Fases de uma execução
 
 ```mermaid
 flowchart TB
-    subgraph LOAD["C0–C3 · load scenarios · 240 s"]
+    subgraph LOAD["C0–C3 · cenários de carga · 240 s"]
         direction LR
-        W1["Warm-up<br/>60 s<br/>discarded"] --> M1["Main phase<br/>180 s"]
+        W1["Aquecimento<br/>60 s<br/>descartado"] --> M1["Fase útil<br/>180 s"]
     end
 
-    subgraph PERT["C4–C7 · perturbation scenarios · 600 s (C7: 480 s)"]
+    subgraph PERT["C4–C7 · cenários de perturbação · 600 s (C7: 480 s)"]
         direction LR
-        W2["Warm-up<br/>60 s<br/>discarded"] --> B["Before<br/>180 s"] --> D["During<br/>180 s of perturbation<br/>C7: 60 s API stop"] --> A["After<br/>180 s<br/>recovery"]
+        W2["Aquecimento<br/>60 s<br/>descartado"] --> B["Antes<br/>180 s"] --> D["Durante<br/>180 s de perturbação<br/>C7: 60 s com a API parada"] --> A["Depois<br/>180 s<br/>recuperação"]
     end
 
     LOAD ~~~ PERT
 ```
 
-Requests are assigned to phases by completion time. For C4–C7, the perturbation start and end are recorded by the server and aligned with the client data using the clock offset measured in the run. Recovery is reached at the first 30 s window with P95 ≤ 1.2 × the *before* P95 and no failures, sustained for 60 s.
+As requisições são atribuídas às fases pelo horário de conclusão. Nos cenários C4–C7, o início e o fim da perturbação são registrados pelo próprio servidor e alinhados aos dados do cliente com o deslocamento de relógio medido na execução. A recuperação é atingida na primeira janela de 30 s com P95 ≤ 1,2 × o P95 da fase *antes* e sem falhas, mantida por 60 s.
 
 ---
 
-## 5. Orchestration of a run
+## 5. Orquestração de uma execução
 
 ```mermaid
 sequenceDiagram
-    participant OP as Operator
-    participant OR as Orchestrator (WSL)
-    participant GEN as k6, probe and meters
-    participant SV as Lab server
+    participant OP as Operador
+    participant OR as Orquestrador (WSL)
+    participant GEN as k6, sonda e medidores
+    participant SV as Servidor do laboratório
 
     OP->>OR: run_scenario.sh C4 r02 campaign
-    OR->>OR: check clean Git tree and record commit
-    OR->>SV: SSH: clock offset, server commit, services, active stressors
-    alt offset above 1 s, different commits or stressor active
-        OR-->>OP: abort before measuring
+    OR->>OR: confere a árvore Git limpa e registra o commit
+    OR->>SV: SSH: relógio, commit do servidor, serviços e estressores ativos
+    alt deslocamento acima de 1 s, commits diferentes ou estressor ativo
+        OR-->>OP: aborta antes de medir
     end
-    OR->>OR: write manifest.json
-    OR->>GEN: start ping, probe and notebook sampling
-    OR->>GEN: start k6 for warm-up and phases
-    opt C4 to C7, at the start of the during phase
-        OR->>SV: SSH sudo tcc2-cpu / mem / net / apifail script
-        SV-->>OR: events-server.csv with start and end in server time
+    OR->>OR: grava o manifest.json
+    OR->>GEN: inicia ping, sonda e amostragem do notebook
+    OR->>GEN: inicia o k6 (aquecimento e fases)
+    opt C4 a C7, no início da fase durante
+        OR->>SV: SSH sudo script tcc2-cpu / mem / net / apifail
+        SV-->>OR: events-server.csv com início e fim no relógio do servidor
     end
-    GEN-->>OR: k6 ends, 20 s drain, probe and meters stopped
-    OR->>SV: SSH export_run.py: Prometheus, Loki, Tempo, containers, journal
-    SV-->>OR: exports copied into the run folder
-    OR->>OR: final manifest, preliminary analysis, notes.md, checksums.sha256
-    OP->>OR: review the run and record its validity in notes.md
+    GEN-->>OR: fim do k6, 20 s de drenagem, sonda e medidores parados
+    OR->>SV: SSH export_run.py: Prometheus, Loki, Tempo, contêineres, journal
+    SV-->>OR: exportações copiadas para a pasta da execução
+    OR->>OR: manifesto final, análise preliminar, notes.md, checksums.sha256
+    OP->>OR: revisa a execução e registra a validade no notes.md
 ```
 
-Each run produces one self-contained folder, `runs/<pilot|campaign>/<scenario>-<repetition>-<UTC timestamp>/`. A run interrupted or classified as invalid is kept and marked, never deleted.
+Cada execução produz uma pasta autocontida, `runs/<pilot|campaign>/<cenário>-<repetição>-<horário UTC>/`. Uma execução interrompida ou classificada como inválida é mantida e marcada, nunca apagada.
 
 ---
 
-## 6. Data and evidence flow
+## 6. Fluxo de dados e evidências
 
 ```mermaid
 flowchart LR
-    RUN[("Run folder<br/>manifest · k6 raw · probe<br/>server exports · checksums")]
-    BK[("Three copies<br/>WSL · Windows + external disk · cloud")]
+    RUN[("Pasta da execução<br/>manifesto · k6 bruto · sonda<br/>exportações do servidor · checksums")]
+    BK[("Três cópias<br/>WSL · Windows + disco externo · nuvem")]
     AN["analyze_run.py<br/>phases.csv · windows.csv · summary.json"]
-    CHK{"Valid run?<br/>notes.md"}
-    INV["Kept and marked INVALID<br/>scenario repeated"]
+    CHK{"Execução válida?<br/>notes.md"}
+    INV["Mantida e marcada como INVALIDA<br/>cenário repetido"]
     CONS["consolidate.py<br/>summary-runs.csv<br/>summary-scenarios.csv"]
-    FIG["plot_load.py · plot_run.py<br/>figures, PNG 300 dpi"]
+    FIG["plot_load.py · plot_run.py<br/>figuras PNG 300 dpi"]
     IDX["evidence-index.csv"]
-    ART["Article<br/>tables, figures, appendices"]
+    ART["Artigo<br/>tabelas, figuras e apêndices"]
 
     RUN --> AN --> CHK
-    CHK -->|yes| CONS --> FIG --> ART
-    CHK -->|no| INV
-    RUN -.->|"same day"| BK
+    CHK -->|sim| CONS --> FIG --> ART
+    CHK -->|não| INV
+    RUN -.->|"no mesmo dia"| BK
     CONS -.-> IDX
     FIG -.-> IDX
     IDX -.-> ART
 ```
 
-Every number in the article must be traceable to a file: the evidence index records the source file, the script or query that produced it, and where it is used.
+Todo número do artigo deve ser rastreável até um arquivo: o índice de evidências registra o arquivo de origem, o script ou a consulta que o produziu e onde ele é utilizado.
 
 ---
 
-## 7. Implementation and evaluation stages
+## 7. Etapas de implementação e avaliação
 
 ```mermaid
 flowchart LR
-    subgraph PREP["Preparation"]
+    subgraph PREP["Preparação"]
         direction TB
-        S0["Stage 0<br/>access, inventory, backup"] --> S1["Stage 1<br/>wired network, UTC clock, Docker"] --> S2["Stage 2<br/>same commit on both machines"]
+        S0["Etapa 0<br/>acesso, inventário e backup"] --> S1["Etapa 1<br/>rede cabeada, relógio UTC e Docker"] --> S2["Etapa 2<br/>mesmo commit nas duas máquinas"]
     end
 
-    subgraph BUILD["Build and integration"]
+    subgraph BUILD["Construção e integração"]
         direction TB
-        S3["Stage 3<br/>API behind NGINX, functional tests"] --> S4A["Stage 4A<br/>instrumentation proven with debug exporter"] --> S4B["Stage 4B<br/>back-ends and log-to-trace proof"] --> S5["Stage 5<br/>dashboards, queries, export"]
+        S3["Etapa 3<br/>API atrás do NGINX e testes funcionais"] --> S4A["Etapa 4A<br/>instrumentação comprovada com o exporter de depuração"] --> S4B["Etapa 4B<br/>back-ends e prova de correlação log-trace"] --> S5["Etapa 5<br/>painéis, consultas e exportação"]
     end
 
-    subgraph CAL["Calibration"]
+    subgraph CAL["Calibração"]
         direction TB
-        S6["Stage 6<br/>pilots: capacity ramp, loads,<br/>targets, perturbations"] --> S7{{"Stage 7<br/>protocol v1 frozen<br/>commit and tag"}}
+        S6["Etapa 6<br/>pilotos: rampa de capacidade, cargas,<br/>metas e perturbações"] --> S7{{"Etapa 7<br/>protocolo v1 congelado<br/>commit e tag"}}
     end
 
-    subgraph MEAS["Measurement and analysis"]
+    subgraph MEAS["Medição e análise"]
         direction TB
-        S8["Stage 8<br/>campaign: C0–C6 (+C7)<br/>3 blocks, 3 repetitions"] --> S9["Stage 9<br/>analysis: SLIs vs SLOs"] --> S10["Stage 10<br/>redeployment from the repository"] --> S11["Stage 11<br/>evidence index, final figures"]
+        S8["Etapa 8<br/>campanha: C0–C6 (+C7)<br/>3 blocos, 3 repetições"] --> S9["Etapa 9<br/>análise: SLIs × SLOs"] --> S10["Etapa 10<br/>reimplantação a partir do repositório"] --> S11["Etapa 11<br/>índice de evidências e figuras finais"]
     end
 
     S2 --> S3
     S5 --> S6
     S7 --> S8
-    S7 -.->|"change requested"| V2["Protocol v2<br/>reason recorded"]
-    V2 -.->|"repeat affected scenarios"| S8
+    S7 -.->|"mudança solicitada"| V2["Protocolo v2<br/>motivo registrado"]
+    V2 -.->|"repetir os cenários afetados"| S8
 ```
 
-A stage starts only after the previous one meets its exit criterion, recorded in the lab log. Targets, loads and windows are frozen before the campaign; any later change creates a new protocol version instead of editing the previous one.
+Uma etapa só começa depois que a anterior cumpre o seu critério de saída, registrado no diário de bordo. Metas, cargas e janelas são congeladas antes da campanha; qualquer mudança posterior gera uma nova versão do protocolo, em vez de alterar a anterior.
