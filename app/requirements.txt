@@ -1,1 +1,12 @@
-
+# Dependencias da API (versoes fixadas em 13/10/2026).
+# FastAPI fixado em 0.141.1: a partir de 0.142.0 (29/09/2026) o FastAPI passou a ter
+# telemetria OpenTelemetry nativa, o que mudaria o desenho do experimento.
+# Depois do 1o build bem-sucedido, gere o lock: docker compose run --rm api pip freeze > app/requirements.lock
+fastapi==0.141.1
+starlette==1.6.0
+pydantic==2.13.5
+uvicorn==0.53.0
+opentelemetry-api==1.45.1
+opentelemetry-sdk==1.45.1
+opentelemetry-exporter-otlp-proto-http==1.45.1
+opentelemetry-instrumentation-fastapi==0.66b1
