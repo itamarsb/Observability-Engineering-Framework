@@ -25,7 +25,7 @@ O objetivo é projetar, implementar e avaliar um ambiente de observabilidade con
 
 O sistema observado é uma API desenvolvida em FastAPI e publicada por meio do NGINX. Métricas, logs e traces são produzidos com OpenTelemetry e tratados pelo OpenTelemetry Collector, Prometheus, Loki, Tempo e Grafana. Todos os serviços são executados com Docker Compose em um único servidor de laboratório. Um notebook separado gera a carga com o k6 e mede o serviço externamente.
 
-> Este repositório está em desenvolvimento. Itens marcados como *pendentes* ou *planejados* ainda não estão operacionais, e nenhum resultado experimental foi publicado até o momento.
+> Este repositório está em desenvolvimento. Itens marcados como *pendentes* ou *planejados* ainda não estão operacionais e nenhum resultado experimental foi publicado até o momento.
 
 ---
 
@@ -34,7 +34,7 @@ O sistema observado é uma API desenvolvida em FastAPI e publicada por meio do N
 *Última atualização: 16/10/2026.*
 
 | Item | Situação |
-|---|---|
+|:---:|:---:|
 | Ubuntu Server 26.04 LTS instalado no servidor do laboratório | Concluído |
 | Rede Wi-Fi, IP fixo e acesso SSH | Concluído |
 | Atualizações do sistema | Concluído |
