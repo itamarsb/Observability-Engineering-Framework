@@ -155,3 +155,13 @@ temp/
 *.tgz
 *.7z
 *.rar
+
+# ==============================================================================
+# Experiment runs
+# ==============================================================================
+
+# Raw data of each run (kept outside Git, with SHA-256 checksums)
+runs/
+
+# Consolidated summaries are versioned
+!results/processed/summary-*.csv
