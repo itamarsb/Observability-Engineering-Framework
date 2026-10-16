@@ -34,7 +34,7 @@ The observed system is an instrumented FastAPI application published through NGI
 *Last updated: 2026-10-16.*
 
 | Area | Status |
-|---|---|
+|:---:|:---:|
 | Ubuntu Server 26.04 LTS installed on the lab server | Completed |
 | Wi-Fi network, static IP and SSH access | Completed |
 | System updates | Completed |
