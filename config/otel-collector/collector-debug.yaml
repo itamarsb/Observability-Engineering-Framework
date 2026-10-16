@@ -1,0 +1,39 @@
+# Etapa 4A - Collector SOMENTE com o exporter debug (sem back-ends).
+# Serve para provar que a API produz e exporta os tres sinais antes de
+# integrar Prometheus, Loki e Tempo. A saida aparece em:
+#   docker compose logs --no-color collector
+# Use com: COLLECTOR_CONFIG=collector-debug.yaml docker compose up -d collector
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 1s
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]

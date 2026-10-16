@@ -1,0 +1,63 @@
+# OpenTelemetry Collector (distribuicao contrib) - TCC2
+# Recebe OTLP/HTTP da API e encaminha: metricas -> exporter Prometheus (raspado
+# pelo Prometheus), traces -> Tempo (OTLP/gRPC), logs -> Loki (OTLP/HTTP).
+# Nomes de componentes conforme a versao 0.162: otlp_grpc e otlp_http (os aliases
+# antigos "otlp" e "otlphttp" ainda funcionam, mas geram aviso de depreciacao).
+# Valide com: otelcol-contrib validate --config=collector.yaml (mesma versao da imagem)
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 400
+    spike_limit_mib: 100
+  batch:
+    timeout: 1s
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    resource_to_telemetry_conversion:
+      enabled: false
+  otlp_grpc/tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+  otlp_http/loki:
+    endpoint: http://loki:3100/otlp
+    tls:
+      insecure: true
+
+service:
+  extensions: [health_check]
+  telemetry:
+    metrics:
+      level: normal
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: 0.0.0.0
+                port: 8888
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [otlp_grpc/tempo]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [otlp_http/loki]
