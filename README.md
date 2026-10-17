@@ -221,11 +221,11 @@ Cuidados metodológicos:
 ## Ambiente experimental
 
 | Componente | Descrição |
-|---|---|
-| Servidor do laboratório | Computador de baixo custo, comercializado como “Mini PC”: Intel Core i7-2600 (4 núcleos, 8 threads), placa B75, 16 GB de RAM, SSD de 480 GB |
-| Sistema operacional | Ubuntu Server 26.04 LTS (kernel 7.0), em partição dedicada (dual boot) |
-| Gerador de carga | Notebook com Windows 11 e WSL2 (Ubuntu), executando o k6, a sonda e a análise |
-| Rede | Enlace Ethernet dedicado entre o notebook e o servidor (`10.10.10.0/24`, sem gateway); Wi-Fi apenas para acesso à internet e atualizações |
+|:---:|:---|
+| Servidor do laboratório | Computador de baixo custo, comercializado como “Mini PC”: Intel Core i7-2600 (4 núcleos, 8 threads), placa B75, 16 GB de RAM, SSD de 480 GB. |
+| Sistema operacional | Ubuntu Server 26.04 LTS (kernel 7.0), em partição dedicada (dual boot). |
+| Gerador de carga | Notebook com Windows 11 e WSL2 (Ubuntu), executando o k6, a sonda e a análise. |
+| Rede | Enlace Ethernet dedicado entre o notebook e o servidor (`10.10.10.0/24`, sem gateway); Wi-Fi apenas para acesso à internet e atualizações. |
 
 ### Versões fixadas
 
