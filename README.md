@@ -190,7 +190,7 @@ São metas experimentais para um ambiente de laboratório, e não garantias de p
 Os cenários experimentais são identificados de C0 a C7. A mesma numeração é usada nos arquivos de parâmetros ([`experiments/scenarios/`](experiments/scenarios/)), nos identificadores das execuções e nas tabelas de resultados.
 
 | ID | Cenário | Demanda | Perturbação |
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 | C0 | Referência (baseline) | R0, cerca de 20–25% da capacidade medida | Nenhuma |
 | C1 | Baixa carga | Cerca de 5–10% da capacidade | Nenhuma |
 | C2 | Média carga | Cerca de 40–50% da capacidade | Nenhuma |
