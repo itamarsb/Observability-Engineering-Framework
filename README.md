@@ -154,7 +154,7 @@ Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma
 ## Aplicação experimental
 
 | Rota | Comportamento | Uso |
-|:---:|:---|:---|
+|:---:|:---:|:---:|
 | `GET /health` | `200 {"status":"ok"}`; excluída da telemetria | Verificação de saúde do contêiner |
 | `GET /work?n=20000` | Valida `1 ≤ n ≤ 100000` e aplica SHA-256 `n` vezes a partir de uma semente fixa; devolve `n` e `digest` | Operação representativa para carga, sonda e SLIs |
 | `GET /controlled-error` | `503` com log e span de erro, somente com `ENABLE_TEST_ROUTES=true` (caso contrário, `404`) | Prova de correlação; desativada durante a campanha |
@@ -166,7 +166,7 @@ O cálculo é determinístico: o digest esperado é calculado fora do servidor (
 ## SLIs e metas de SLO
 
 | SLI | Fonte | Definição |
-|---|---|---|
+|:---:|:---:|:---:|
 | Latência P95 e P99 | k6 (lado do cliente) | Percentil pelo método do posto mais próximo, calculado apenas sobre respostas corretas |
 | Taxa de erro composta | k6 | Tentativas com falha divididas pelo total de tentativas; falha é status diferente de 200, corpo incorreto, timeout ou erro de conexão |
 | Vazão com sucesso | k6 | Respostas corretas por segundo, comparadas à taxa oferecida |
