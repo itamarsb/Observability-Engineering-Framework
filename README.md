@@ -116,7 +116,7 @@ flowchart LR
     ORCH -->|"SSH: perturbações e exportação de dados"| PERT
 ```
 
-Setas contínuas indicam requisições e telemetria enviadas por quem as produz (HTTP e OTLP) e os dados que o Grafana lê de cada back-end (PromQL, LogQL e TraceQL); setas tracejadas indicam métricas coletadas pelo Prometheus (*scrape*). O Prometheus não recebe logs nem traces. As perturbações atuam na CPU e na memória do host (C4 e C5), na rede do contêiner do NGINX (C6) ou no contêiner da API (C7).
+Setas contínuas indicam requisições e telemetria enviadas por quem as produz (HTTP e OTLP) e os dados que o Grafana lê de cada back-end (PromQL, LogQL e TraceQL); setas tracejadas indicam métricas coletadas pelo Prometheus (*scrape*). O Prometheus não recebe logs nem traces. As perturbações atuam na CPU e na memória do host (cenários C4 e C5), na rede do contêiner do NGINX (C6) ou no contêiner da API (C7); os cenários estão descritos em [Desenho experimental](#desenho-experimental).
 
 Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma requisição, da orquestração das execuções e das etapas de avaliação: [`docs/architecture/`](docs/architecture/).
 
@@ -134,9 +134,9 @@ Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma
 | Sinal | Origem | Caminho | Armazenamento e consulta |
 |---|---|---|---|
 | Traces | Span de servidor de cada requisição (instrumentação do FastAPI) e spans filhos `validar_entrada` e `calcular_hash` | OTLP/HTTP → Collector → OTLP/gRPC | Tempo, TraceQL |
-| Métricas da aplicação | Histograma `http.server.request.duration` (convenções semânticas HTTP estáveis) | OTLP/HTTP → Collector → exporter Prometheus, coletado a cada 5 s | Prometheus, PromQL |
-| Métricas do host | Node Exporter: CPU, memória, disco, rede e temperatura | Coletado a cada 5 s | Prometheus, PromQL |
-| Saúde do pipeline | Métricas internas do Collector e alvos Prometheus, Loki e Tempo | Coletado a cada 5 s | Prometheus, PromQL |
+| Métricas da aplicação | Histograma `http.server.request.duration` (convenções semânticas HTTP estáveis) | OTLP/HTTP → Collector → exporter Prometheus (*scrape* a cada 5 s) | Prometheus, PromQL |
+| Métricas do host | Node Exporter: CPU, memória, disco, rede e temperatura | *Scrape* a cada 5 s | Prometheus, PromQL |
+| Saúde do pipeline | Métricas internas do Collector e dos alvos Prometheus, Loki e Tempo | *Scrape* a cada 5 s | Prometheus, PromQL |
 | Logs da aplicação | Evento estruturado `request_completed` (rota, status, duração, `run_id`) com `trace_id` e `span_id` | OTLP/HTTP → Collector → endpoint OTLP do Loki | Loki, LogQL |
 | Logs do proxy | Log de acesso do NGINX em JSON (`request_time`, tempos do upstream, `run_id`) | Saída do contêiner, exportada em cada execução | Arquivos da execução |
 
@@ -177,7 +177,7 @@ As metas são registradas em [`experiments/scenarios/protocol-v1.md`](experiment
 - taxa de erro composta ≤ 1%;
 - disponibilidade amostrada ≥ 99% em cada janela de medição;
 - vazão com sucesso ≥ 95% da taxa oferecida;
-- latência P95 e P99 derivadas do piloto do cenário C0 (regra proposta: o dobro do valor do piloto, arredondado para cima até um múltiplo de 25 ms).
+- latência P95 e P99 derivadas do piloto do cenário C0 (regra proposta: o dobro do valor medido no piloto, arredondado para cima até o múltiplo de 25 ms seguinte).
 
 O uso de CPU e de memória é tratado como métrica de recurso, que ajuda a explicar os resultados, e não como SLO. Os percentis calculados no servidor a partir dos histogramas do Prometheus são estimativas; a fonte principal de latência é o cliente.
 
@@ -186,6 +186,8 @@ São metas experimentais para um ambiente de laboratório, e não garantias de p
 ---
 
 ## Desenho experimental
+
+Os cenários experimentais são identificados de C0 a C7. A mesma numeração é usada nos arquivos de parâmetros ([`experiments/scenarios/`](experiments/scenarios/)), nos identificadores das execuções e nas tabelas de resultados.
 
 | ID | Cenário | Demanda | Perturbação |
 |---|---|---|---|
@@ -198,7 +200,9 @@ São metas experimentais para um ambiente de laboratório, e não garantias de p
 | C6 | Atraso de rede | R0 | Atraso `tc netem` na interface do contêiner do NGINX |
 | C7 | Falha controlada da API (opcional) | R0 | Contêiner da API parado por 60 s e depois reiniciado |
 
-A capacidade é medida antes, com uma rampa em degraus ([`experiments/k6/ramp.js`](experiments/k6/ramp.js)). Demandas, intensidades e metas são calibradas nos pilotos e depois congeladas. Detalhes: [`experiments/experimental-matrix.md`](experiments/experimental-matrix.md).
+R0 é a demanda de referência: a mesma taxa do C0 é aplicada nos cenários C4 a C7, de modo que a perturbação seja a única diferença em relação à referência.
+
+A capacidade do servidor é medida antes dos cenários, com uma rampa em degraus ([`experiments/k6/ramp.js`](experiments/k6/ramp.js)). Demandas, intensidades e metas são calibradas nos pilotos e depois congeladas. Detalhes: [`experiments/experimental-matrix.md`](experiments/experimental-matrix.md).
 
 Cuidados metodológicos:
 
