@@ -230,7 +230,7 @@ Cuidados metodológicos:
 ### Versões fixadas
 
 | Componente | Versão | Componente | Versão |
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 | OpenTelemetry Collector (contrib) | 0.162.0 | Imagem base do Python | 3.12-slim |
 | Prometheus | 3.15.0 | FastAPI / Starlette / Uvicorn | 0.141.1 / 1.6.0 / 0.53.0 |
 | Loki | 3.7.8 | SDK / instrumentação do OpenTelemetry para Python | 1.45.1 / 0.66b1 |
