@@ -154,7 +154,7 @@ Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma
 ## Aplicação experimental
 
 | Rota | Comportamento | Uso |
-|---|---|---|
+|:---:|:---|:---|
 | `GET /health` | `200 {"status":"ok"}`; excluída da telemetria | Verificação de saúde do contêiner |
 | `GET /work?n=20000` | Valida `1 ≤ n ≤ 100000` e aplica SHA-256 `n` vezes a partir de uma semente fixa; devolve `n` e `digest` | Operação representativa para carga, sonda e SLIs |
 | `GET /controlled-error` | `503` com log e span de erro, somente com `ENABLE_TEST_ROUTES=true` (caso contrário, `404`) | Prova de correlação; desativada durante a campanha |
