@@ -132,7 +132,7 @@ Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma
 ## Sinais de telemetria
 
 | Sinal | Origem | Caminho | Armazenamento e consulta |
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 | Traces | Span de servidor de cada requisição (instrumentação do FastAPI) e spans filhos `validar_entrada` e `calcular_hash` | OTLP/HTTP → Collector → OTLP/gRPC | Tempo, TraceQL |
 | Métricas da aplicação | Histograma `http.server.request.duration` (convenções semânticas HTTP estáveis) | OTLP/HTTP → Collector → exporter Prometheus (*scrape* a cada 5 s) | Prometheus, PromQL |
 | Métricas do host | Node Exporter: CPU, memória, disco, rede e temperatura | *Scrape* a cada 5 s | Prometheus, PromQL |
