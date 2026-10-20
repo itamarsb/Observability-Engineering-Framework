@@ -124,7 +124,7 @@ Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma
 |:---:|:---:|:---:|
 | `LAB_BIND_IP:8080` | NGINX, ponto de entrada único | Gerador de carga e sonda, pela rede dedicada do laboratório |
 | `127.0.0.1:3000` / `9090` / `3100` / `3200` | Grafana / Prometheus / Loki / Tempo | Somente no servidor; a partir do notebook, por túnel SSH |
-| Rede do host `:9100` | Node Exporter | Coletado pelo Prometheus |
+| Rede do host `:9100` | Node Exporter | Coletado pelo Prometheus; por usar `network_mode: host`, requer verificacao de firewall/bind antes de conectar a redes nao isoladas |
 | `collector:4318`, `tempo:4317` | OTLP | Somente na rede interna do Compose |
 
 ---
@@ -263,6 +263,9 @@ docker compose ps
 ```
 
 - Procedimento completo e ordenado: [`docs/runbooks/deployment.md`](docs/runbooks/deployment.md).
+- Antes da campanha, consulte a [auditoria do repositório](docs/runbooks/auditoria-repositorio-2026-10-20.md) e a [lista de verificações pré-piloto](docs/runbooks/verificacao-v4.md).
+- **Resultados:** o script `consolidate.py` só inclui execuções com `- Classificacao final: VALIDA` em `notes.md`, após revisão humana dos critérios do protocolo.
+
 - Grafana a partir do notebook: `ssh -N -L 3000:127.0.0.1:3000 <usuario>@<servidor>` e abrir `http://localhost:3000`.
 - Para parar a stack, use `docker compose stop`. **Não** use `docker compose down -v`, que apaga os volumes de telemetria.
 
@@ -357,7 +360,7 @@ Nenhum resultado experimental foi publicado até o momento. A organização dos 
 
 ## Notas de segurança
 
-- Apenas o NGINX é publicado na rede do laboratório; as interfaces administrativas ficam restritas a `127.0.0.1` e são acessadas por túnel SSH.
+- O NGINX é a única porta HTTP de aplicação publicada intencionalmente na rede dedicada. **Exceção a validar:** o Node Exporter usa `network_mode: host` e pode escutar na porta `9100` em interfaces físicas. Verifique firewall/escuta antes de utilizar redes externas. As interfaces Grafana, Prometheus, Loki e Tempo ficam restritas a `127.0.0.1` e são acessadas por túnel SSH.
 - O arquivo `.env`, chaves, dados brutos das execuções e volumes de telemetria não são versionados.
 - Logs e atributos de spans não contêm dados pessoais ou sensíveis.
 

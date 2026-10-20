@@ -15,6 +15,7 @@ import csv
 import glob
 import json
 import os
+import re
 import statistics
 import sys
 
@@ -26,15 +27,33 @@ def main() -> int:
     src = sys.argv[1] if len(sys.argv) > 1 else "runs/campaign"
     dst = sys.argv[2] if len(sys.argv) > 2 else "results/processed"
     os.makedirs(dst, exist_ok=True)
-    rows, invalid = [], []
+    rows, excluded = [], []
+    seen: set[tuple[str,str]] = set()
     for run in sorted(glob.glob(os.path.join(src, "*"))):
         ph = os.path.join(run, "analysis", "phases.csv")
         if not os.path.exists(ph):
+            excluded.append((os.path.basename(run), "sem analise"))
             continue
         notes = os.path.join(run, "notes.md")
-        if os.path.exists(notes) and "INVALIDA" in open(notes, encoding="utf-8").read():
-            invalid.append(os.path.basename(run))
+        if not os.path.exists(notes):
+            excluded.append((os.path.basename(run), "sem notes.md"))
             continue
+        note_text = open(notes, encoding="utf-8").read()
+        status = re.findall(r"(?im)^\s*-\s*Classificacao final:\s*(VALIDA|INVALIDA|PENDENTE)\s*$", note_text)
+        if len(status) != 1 or status[0] != "VALIDA" or "INVALIDA:" in note_text:
+            excluded.append((os.path.basename(run), "sem aprovacao explicita ou invalida"))
+            continue
+        manifest_path = os.path.join(run, "manifest.json")
+        if not os.path.exists(manifest_path):
+            excluded.append((os.path.basename(run), "sem manifest.json"))
+            continue
+        manifest = json.load(open(manifest_path, encoding="utf-8"))
+        key = (manifest["scenario"], manifest["repetition"])
+        if key in seen:
+            print(f"ERRO: mais de uma execucao VALIDA para o mesmo cenario/repeticao {key}; "
+                  "identifique a repeticao definitiva e invalide a substituida")
+            return 2
+        seen.add(key)
         extra = {}
         sj = os.path.join(run, "analysis", "summary.json")
         if os.path.exists(sj):
@@ -68,7 +87,7 @@ def main() -> int:
         w = csv.DictWriter(fh, fieldnames=list(out[0].keys()))
         w.writeheader()
         w.writerows(out)
-    print(f"{len(rows)} linhas (execucao x fase); {len(out)} grupos; excluidas por INVALIDA: {invalid or 'nenhuma'}")
+    print(f"{len(rows)} linhas (execucao x fase); {len(out)} grupos; excluidas: {excluded or 'nenhuma'}")
     return 0
 
 

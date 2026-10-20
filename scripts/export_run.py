@@ -63,7 +63,10 @@ PROM_QUERIES = {
 def http_get_json(url: str, params: dict, timeout: float = 60.0):
     q = urllib.parse.urlencode(params)
     with urllib.request.urlopen(f"{url}?{q}", timeout=timeout) as r:
-        return json.loads(r.read())
+        data = json.loads(r.read())
+    if isinstance(data, dict) and data.get("status") == "error":
+        raise RuntimeError(f"API retornou erro: {data.get('errorType')}: {data.get('error')}")
+    return data
 
 
 def to_epoch(s: str) -> float:
@@ -130,15 +133,23 @@ def main() -> int:
                     "query": logq, "start": cursor, "end": end_ns, "limit": 5000, "direction": "forward"})
                 entries = []
                 for s in d["data"]["result"]:
-                    for ts, line in s["values"]:
-                        entries.append((int(ts), line, s["stream"]))
+                    for item in s["values"]:
+                        # Loki v3 pode retornar metadados estruturados no terceiro elemento.
+                        ts, line = item[:2]
+                        metadata = item[2] if len(item) > 2 and isinstance(item[2], dict) else {}
+                        entries.append((int(ts), line, s["stream"], metadata))
                 entries.sort(key=lambda e: e[0])
-                for ts, line, stream in entries:
-                    lf.write(json.dumps({"ts_ns": ts, "line": line, "fields": stream}, ensure_ascii=False) + "\n")
+                for ts, line, stream, metadata in entries:
+                    lf.write(json.dumps({"ts_ns": ts, "line": line, "fields": stream,
+                                         "structured_metadata": metadata}, ensure_ascii=False) + "\n")
                 n_lines += len(entries)
                 if len(entries) < 5000:
                     break
-                cursor = entries[-1][0] + 1  # proxima pagina apos o ultimo timestamp
+                # Avancar por timestamp pode perder registros com mesmo ns no limite da pagina.
+                if len(entries) >= 2 and entries[-2][0] == entries[-1][0]:
+                    raise RuntimeError("Paginacao Loki ambigua: limite de pagina cruza timestamp identico; "
+                                       "aumente a janela por particao antes de usar a evidencia")
+                cursor = entries[-1][0] + 1
         report["items"]["loki-api"] = {"query": logq, "lines": n_lines}
     except Exception as exc:
         report["items"]["loki-api"] = {"query": logq, "error": repr(exc)}
@@ -169,6 +180,10 @@ def main() -> int:
         except Exception:
             pass
     report["items"]["tempo-traces"] = {"selected": len(ids), "saved": ok}
+    if ok != len(ids):
+        report["items"]["tempo-traces"]["error"] = (
+            f"traces selecionados={len(ids)}, salvos={ok}; verificar falhas na consulta"
+        )
 
     # 4) Conteineres, logs e sistema
     since = dt.datetime.fromtimestamp(t0, dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -218,9 +233,12 @@ def main() -> int:
                 fh.write(f"$ {' '.join(cmd)}\n(indisponivel: {exc})\n\n")
 
     json.dump(report, open(os.path.join(out, "export-report.json"), "w"), indent=1, ensure_ascii=False)
-    print(json.dumps({k: v for k, v in report["items"].items() if "error" in v}, ensure_ascii=False) or "{}")
-    print(f"{VERSION}: exportado em {out}")
-    return 0
+    failures = {k: v for k, v in report["items"].items()
+                if "error" in v or ("rc" in v and v["rc"] != 0)}
+    print(json.dumps(failures, ensure_ascii=False) if failures else "{}")
+    print(f"{VERSION}: exportado em {out} (falhas={len(failures)})")
+    # Nao afirmar sucesso quando uma origem de evidencia falhou.
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

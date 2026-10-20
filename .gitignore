@@ -165,3 +165,14 @@ runs/
 
 # Consolidated summaries are versioned
 !results/processed/summary-*.csv
+
+# Transcricoes temporarias e relatorios da auditoria local
+*.tfstate
+*.tfstate.backup
+*.p12
+*.pfx
+*.kubeconfig
+
+# Arquivos locais da execucao e do servidor
+tcc2-exports/
+tcc2-backup/
