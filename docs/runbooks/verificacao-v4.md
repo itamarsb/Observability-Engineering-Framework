@@ -1,40 +1,29 @@
-# Kit v4 (revisao estatica) - lista de verificacao antes do piloto
+# Verificação pré-piloto — revisão v4
 
-Este ZIP preserva o projeto original e aplica correcoes locais verificadas por leitura,
-validacao sintatica e testes isolados. NAO foi executado no Mini PC e nao tem homologacao
-end-to-end com Grafana/NGINX/k6/OTLP.
+Este roteiro reúne as correções submetidas no [Pull Request #1](https://github.com/itamarsb/Observability-Engineering-Framework/pull/1) e as verificações necessárias antes da campanha definitiva. Os testes sintáticos e com dados sintéticos foram executados na preparação da revisão. **A integração no Mini PC ainda não foi testada.**
 
-## Correcoes incorporadas
-- `run_scenario.sh`: bloqueia campanha com arquivos Git nao rastreados (notebook e servidor);
-  marca automaticamente como INVALIDA se k6, intervencao, exportacao, copia, analise ou
-  `export-report.json` falharem.
-- `export_run.py`: grava `structured_metadata` dos registros Loki, incluindo possivel `trace_id`;
-  rejeita respostas de API `status=error`; falhas exportadas passam a retornar codigo nao zero;
-  interrompe paginacao Loki com carimbo de tempo ambiguo para nao ocultar possivel perda.
-- `analyze_run.py`: interpreta registros JSON do k6 com parser JSON, sem depender da ausencia de espacos;
-  teste sintetico confirmou o caminho do dado ao `consolidate.py`.
-- `backup_volumes.sh`: reinicia servicos mesmo diante de falhas/interrupcao; exige volumes presentes,
-  confere hashes dos `.tgz`.
-- `compose.yaml`/`.env.example`: sub-rede Docker e IP interno da API parametrizaveis;
-  a reimplantacao usa faixa distinta e fica documentada no runbook.
+## Alterações a conferir
 
-## Bloqueios pendentes no equipamento (NAO liberar Etapa 8)
-1. Verificar versoes/tag/digest das imagens e `docker compose config` no Mini PC.
-2. Verificar Node Exporter na rede host: porta 9100 pode ficar exposta nas interfaces
-   fisicas. Antes de ligar a rede a terceiros, restringir acesso e documentar a medida;
-   nao mudar bind sem conferir o scrape Prometheus.
-3. Testar 4A/4B: traces, metricas e logs do mesmo evento; verificar `structured_metadata`.
-4. Testar painel 01 PromQL com labels REAIS; confirmar `job`, `http_route`, `le`.
-5. Testar k6/probe e scripts de perturbacao APENAS durante pilotos supervisionados.
-6. Testar backup, verificar hashes e RESTAURAR num diretorio/volume de teste.
-7. Testar reimplantacao em 172.31.0.0/24, sem colidir com a stack original.
-8. Congelar protocolo, parametros, validade e criterios de recuperacao antes da campanha.
+- `run_scenario.sh`: verificar o estado do Git nas duas máquinas e marcar falhas de k6, intervenção, exportação, cópia e análise como execuções inválidas.
+- `export_run.py`: conferir a exportação de `structured_metadata` do Loki, o tratamento de respostas de erro e a sinalização de paginação incompleta.
+- `analyze_run.py`: confirmar a interpretação dos registros JSON do k6 e a consistência com a consolidação.
+- `consolidate.py`: aceitar apenas execuções aprovadas em `notes.md` e bloquear repetições duplicadas.
+- `backup_volumes.sh`: conferir os volumes esperados, as somas SHA-256 e a religação dos serviços após uma interrupção.
+- `compose.yaml` e `.env.example`: validar a parametrização da rede e do IP interno da API, inclusive no ambiente de reimplantação.
 
-## Atenção metodologica
-A analise mantem os criterios originais de latencia nas respostas corretas,
-falha composta separada, 3 repeticoes, pilotos excluidos dos resultados finais.
-A rotina automatica so cobre invalidacoes TECNICAS; dropped_iterations, taxa real,
-cobertura da sonda e coerencia do recurso devem ser revisados e registrados em `notes.md`.
+## Verificações obrigatórias antes da Etapa 8
 
-Esta versao e uma proposta de codigo para ensaio/piloto. Antes de adotar, compare com
-`git diff --no-index` e registre as alteracoes no repositorio em commits pequenos.
+1. Registrar as versões, tags e digests das imagens; executar `docker compose config` no Mini PC.
+2. Examinar a porta 9100 do Node Exporter e as regras de firewall. Restringir o acesso antes de usar redes de terceiros, sem interromper a coleta do Prometheus.
+3. Confirmar as Etapas 4A e 4B com métricas, logs e traces de uma mesma requisição, inclusive os metadados de correlação.
+4. Testar as consultas do painel 01 com os rótulos efetivamente exportados (`job`, `http_route` e `le`).
+5. Executar k6, sonda e perturbações somente em pilotos acompanhados, verificando a remoção dos estressores.
+6. Conferir o backup, os hashes e uma restauração em volume de teste, sem alterar dados da campanha.
+7. Testar a reimplantação em uma sub-rede distinta (proposta: `172.31.0.0/24`), sem colisão com a infraestrutura original.
+8. Registrar as cargas, os critérios de validade e recuperação e as metas do protocolo antes da campanha definitiva.
+
+## Critérios de análise
+
+A latência considera respostas corretas; os erros são contabilizados separadamente. Cada cenário exige três repetições válidas, e os pilotos não entram nos resultados definitivos. A rotina automática identifica algumas falhas técnicas; a avaliação de `dropped_iterations`, taxa de carga efetiva, cobertura da sonda e coerência do estresse aplicado deve constar em `notes.md`.
+
+Em caso de evidência insuficiente, mantenha a classificação `PENDENTE`. Registre o motivo de `INVALIDA` antes de repetir um ensaio. Nenhum cenário está homologado para a campanha apenas por passar nos testes offline.

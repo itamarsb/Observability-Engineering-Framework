@@ -1,6 +1,6 @@
 # Auditoria do repositório e preparação dos pilotos — 20/10/2026
 
-**Escopo.** Revisão do ZIP `Observability-Engineering-Framework-main(2).zip` comparado ao `TCC2_Kit_Laboratorio_v4_PrePiloto.zip` e ao Manual de Bancada v3.1. É uma revisão **do snapshot enviado**, não uma verificação do branch remoto do GitHub. Não houve commit, push, execução no Mini PC ou testes com Docker/NGINX/Grafana reais.
+**Escopo e referência.** A auditoria inicial examinou a cópia `Observability-Engineering-Framework-main(2).zip` e a comparou com o kit de laboratório v4 e o Manual de Bancada v3.1. Em seguida, os arquivos modificados foram conferidos com a branch `main` e publicados para revisão no [Pull Request #1](https://github.com/itamarsb/Observability-Engineering-Framework/pull/1), na branch `fix/tcc2-pre-piloto`. As verificações foram estáticas e com dados sintéticos; não houve ensaio de integração no Mini PC.
 
 ## Alterações técnicas incorporadas
 
@@ -18,7 +18,7 @@
 | Baixa | `.gitignore` | Proteções adicionais para artefatos locais não estavam descritas | Acrescentadas regras de exclusão preventivas, sem excluir evidências ou código já versionados |
 | Média | `tests/test_pipeline_offline.py` | Não havia testes automatizados de regressão para o pipeline de análise | Criados testes unitários sintéticos com Python padrão, sem hardware e sem instalações |
 
-O conteúdo de `app/`, a matriz de cenários, os painéis, as capturas de instalação e as referências acadêmicas foram preservados, exceto onde indicado. **Não substitua** o repositório pelo kit isolado: o kit não contém toda a documentação, histórico visual e arquivos adicionais presentes no ZIP.
+O conteúdo de `app/`, a matriz de cenários, os painéis, as capturas de instalação e as referências acadêmicas foram preservados, exceto onde indicado. As correções foram aplicadas sobre o repositório existente, sem substituir sua documentação ou suas evidências visuais por arquivos do kit isolado.
 
 ## Atenção: validação ainda pendente no Mini PC
 
@@ -33,7 +33,7 @@ O conteúdo de `app/`, a matriz de cenários, os painéis, as capturas de instal
 9. Inspecionar visualmente imagens e capturas públicas antes de criar novas postagens, para não divulgar segredos, usuários, endereço de rede global, tokens ou dados pessoais.
 10. Congelar critérios de validade, cargas e SLOs no protocolo antes da Etapa 8 e registrar commit/tag das versões dos scripts e configurações.
 
-**Limitações desta revisão.** A sintaxe é validada localmente, mas não podemos afirmar compatibilidade real das versões fixadas, volume das retenções, consumo de CPU/memória, comunicação entre contêineres, timeouts do k6 ou desempenho do Mini PC sem o laboratório. `run_scenario.sh` tem caminhos de exceção e ações privilegiadas que requerem pilotos supervisionados. Nenhum cenário da campanha está homologado por esta auditoria.
+**Limitações da verificação.** Os testes sintáticos e com entradas sintéticas não comprovam compatibilidade operacional das versões fixadas, retenção efetiva, consumo de CPU/memória, comunicação entre contêineres, timeouts do k6 ou desempenho do Mini PC. `run_scenario.sh` tem caminhos de exceção e ações privilegiadas que requerem pilotos supervisionados. Nenhum cenário da campanha está homologado por esta auditoria.
 
 ## Como testar as alterações em segurança
 
@@ -53,12 +53,11 @@ Aprovação humana de execução (somente após conferir `notes.md`, dados bruto
 
 Em caso de dúvida, mantenha `PENDENTE`; para execução inválida, use `INVALIDA` e descreva o motivo. **Não mude os critérios de validade durante a campanha.** O script de consolidação não decide sozinho se a carga e os recursos foram válidos.
 
-## Aplicação no GitHub
+## Controle de versão e publicação
 
-Trabalhe em branch separado e faça commits curtos, por exemplo:
+As alterações iniciais foram publicadas em 20/10/2026 no [Pull Request #1](https://github.com/itamarsb/Observability-Engineering-Framework/pull/1), aberto como rascunho contra `main`. O commit inicial da revisão é `ecb8d3a`, e o histórico posterior do PR registra os ajustes editoriais e técnicos adicionais.
 
-1. `fix: garantir integridade da coleta e analise` — scripts e testes.
-2. `fix: parametrizar rede e proteger backup` — Compose, `.env.example`, runbooks.
-3. `docs: atualizar criterios e pendencias dos pilotos` — documentação, `.gitignore`.
-
-**Não faça push automático sem revisar o `git diff`**. O ZIP é um snapshot; mudanças posteriores no GitHub precisam ser reconciliadas antes de copiar arquivos por cima. Não envie `.env`, credenciais, `runs/` ou resultados brutos para o GitHub.
+- Compare o conteúdo pela guia **Files changed** do PR antes do merge.
+- Mantenha o PR em rascunho até completar as verificações da seção anterior no laboratório.
+- Evite versionar `.env`, credenciais, `runs/` e resultados brutos que contenham informações sensíveis.
+- Em mudanças posteriores, confira a revisão do protocolo e o registro de evidências antes de atualizar os arquivos.
