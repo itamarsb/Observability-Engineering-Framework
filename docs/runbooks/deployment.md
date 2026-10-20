@@ -22,7 +22,13 @@ intervencao manual nao descrita aqui: isso e resultado da secao 4.8 do artigo.
 10. `sudo bash scripts/install_server_scripts.sh itamar` (intervencoes + sudoers).
 
 ## Reimplantacao isolada (Etapa 10)
-`docker compose -p tcc2-repro up -d` em um clone novo, com a stack original parada.
+No clone novo, use um `.env` independente com `LAB_DOCKER_SUBNET=172.31.0.0/24`
+e `API_IPV4=172.31.0.10` (ou outra faixa livre conferida no Docker),
+porque `docker compose stop` nao exclui a rede original 172.30.0.0/24.
+A stack original precisa permanecer parada para liberar portas do host
+(8080/3000/9090/3100/3200/9100). Nao executar cenarios sobre ambas as stacks.
+Confirme `docker compose -p tcc2-repro config -q` antes de subir.
+`docker compose -p tcc2-repro up -d` em clone novo, com a stack original parada.
 Atencao: os scripts de intervencao usam PROJECT=tcc2 por padrao; para o projeto
 de reproducao use `sudo PROJECT=tcc2-repro ...` apenas se for testar intervencoes.
 

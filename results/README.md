@@ -11,7 +11,7 @@ Nenhum resultado experimental foi publicado até o momento. Os pilotos servem ap
 | [`charts/`](charts/) | Figuras geradas pelos scripts de gráficos | Não — regeneradas a partir dos dados |
 | [`evidence-index.csv`](evidence-index.csv) | Índice de rastreabilidade: cada evidência, o arquivo de origem, o script ou a consulta que a produziu e onde é utilizada | Sim |
 
-Execuções abortadas ou inválidas são preservadas e marcadas como tal; elas são listadas, mas ficam fora da consolidação.
+Execuções abortadas, inválidas ou **ainda não avaliadas** são preservadas e ficam fora da consolidação. Antes de gerar resultados, revise `analysis.txt`, `k6-summary.json`, `probe.csv`, `export-report.json`, eventos e relógios; só então altere em `notes.md` a linha `- Classificacao final: PENDENTE` para `- Classificacao final: VALIDA`. Caso contrário, use `- Classificacao final: INVALIDA` e registre o motivo. Execuções repetidas com o mesmo cenário e repetição exigem desambiguação para não enviesar a análise.
 
 ## Processamento
 

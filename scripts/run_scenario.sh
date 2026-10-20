@@ -43,14 +43,16 @@ abort() {
   log "INTERROMPIDO pelo operador (Ctrl+C) - execucao deve ser marcada como INVALIDA"
   kill "${K6_PID:-}" "${PROBE_PID:-}" "${PING_PID:-}" "${VMSTAT_PID:-}" 2>/dev/null || true
   echo "INVALIDA: interrompida pelo operador em $(ts)" >> "$OUT/notes.md"
-  echo ">> No servidor, confira/pare estressores:  sudo systemctl stop tcc2-cpu tcc2-mem  (netem: ver docs/runbooks/deployment.md)"
+  echo ">> No servidor, confira/pare estressores:  sudo systemctl stop tcc2-cpu tcc2-mem  (netem: ver manual)"
   exit 130
 }
 trap abort INT TERM
 
 # ---------- 1. pre-condicoes ----------
-if [[ "$KIND" == campaign ]]; then
-  git diff --quiet && git diff --cached --quiet || { log "ABORTADO: arvore Git com alteracoes"; exit 1; }
+# Inclui arquivos nao rastreados: diff --quiet sozinho NAO os detecta.
+if [[ "$KIND" == campaign ]] && [[ -n "$(git status --porcelain --untracked-files=all)" ]]; then
+  log "ABORTADO: arvore Git com alteracoes ou arquivos nao rastreados"
+  exit 1
 fi
 git rev-parse HEAD > "$OUT/commit.txt"
 git status --porcelain > "$OUT/git-status.txt"
@@ -69,6 +71,13 @@ SERVER_COMMIT=$(ssh -o BatchMode=yes "$SERVER" "git -C ${SERVER_REPO} rev-parse 
 echo "$SERVER_COMMIT" > "$OUT/server-commit.txt"
 if [[ "$KIND" == campaign && "$SERVER_COMMIT" != "$(cat "$OUT/commit.txt")" ]]; then
   log "ABORTADO: commit do servidor (${SERVER_COMMIT}) difere do commit do notebook"; exit 1
+fi
+if [[ "$KIND" == campaign ]]; then
+  SERVER_DIRTY=$(ssh -o BatchMode=yes "$SERVER" "git -C ${SERVER_REPO} status --porcelain --untracked-files=all")
+  if [[ -n "$SERVER_DIRTY" ]]; then
+    log "ABORTADO: alteracoes ou arquivos nao rastreados no repositorio do servidor"
+    exit 1
+  fi
 fi
 ssh -o BatchMode=yes "$SERVER" "date -u; uptime; free -m; df -h /; (sensors 2>/dev/null || true); \
   docker ps --format '{{.Names}} {{.Status}}'; \
@@ -148,9 +157,13 @@ END_TS=$(ts)
 EXP_START=$(python3 -c "import datetime as d; t=d.datetime.fromisoformat('$K6_START')+d.timedelta(seconds=float('$OFFSET')-60); print(t.isoformat())")
 EXP_END=$(python3 -c "import datetime as d; t=d.datetime.fromisoformat('$END_TS')+d.timedelta(seconds=float('$OFFSET')+30); print(t.isoformat())")
 log "exportando no servidor ${EXP_START} -> ${EXP_END}"
+EXPORT_RC=0
 ssh -o BatchMode=yes "$SERVER" "python3 ${SERVER_REPO}/scripts/export_run.py --run-id ${RUN_ID} --start ${EXP_START} --end ${EXP_END} --project ${COMPOSE_PROJECT:-tcc2}" \
-  > "$OUT/export.log" 2>&1 || log "AVISO: exportacao retornou erro (ver export.log)"
-scp -q -r "$SERVER:tcc2-exports/${RUN_ID}" "$OUT/server" || log "AVISO: falha no scp"
+  > "$OUT/export.log" 2>&1 || EXPORT_RC=$?
+SCP_RC=0
+scp -q -r "$SERVER:tcc2-exports/${RUN_ID}" "$OUT/server" || SCP_RC=$?
+if [[ "$EXPORT_RC" -ne 0 ]]; then log "AVISO: exportacao incompleta (rc=$EXPORT_RC, ver export.log)"; fi
+if [[ "$SCP_RC" -ne 0 ]]; then log "AVISO: falha no scp (rc=$SCP_RC)"; fi
 
 # ---------- 6. manifesto final, hashes e analise preliminar ----------
 python3 - "$OUT/manifest.json" "$K6_START" "$END_TS" "$K6_EXIT" "${INT_RC}" <<'PY'
@@ -161,15 +174,23 @@ m.update({"k6_start_utc": k6s, "end_utc": end, "k6_exit_code": int(k6x),
           "intervention_rc": None if irc == "" else int(irc)})
 json.dump(m, open(p, "w"), indent=2, ensure_ascii=False)
 PY
-python3 scripts/analyze_run.py "$OUT" > "$OUT/analysis.txt" 2>&1 || log "AVISO: analise preliminar falhou"
+ANALYSIS_RC=0
+python3 scripts/analyze_run.py "$OUT" > "$OUT/analysis.txt" 2>&1 || ANALYSIS_RC=$?
+if [[ "$ANALYSIS_RC" -ne 0 ]]; then log "AVISO: analise preliminar falhou (rc=$ANALYSIS_RC)"; fi
 cat > "$OUT/notes.md" <<EOF
 # Notas da execucao ${RUN_ID}
+- Classificacao final: PENDENTE
 - Validade da carga (k6 exit, dropped_iterations, CPU do notebook): PENDENTE
 - Validade da sonda (cobertura = 100%?): PENDENTE
 - Validade da telemetria (lacunas, reinicios, OOM, export-report): PENDENTE
 - Intervencao aplicada como planejado? (events-server.csv, intervention.log): PENDENTE
 - Incidentes / observacoes do operador:
 EOF
+# Bloqueios verificaveis invalidam automaticamente; demais dimensoes dependem do operador.
+if [[ "$K6_EXIT" -ne 0 || "${INT_RC:-0}" -ne 0 || "$EXPORT_RC" -ne 0 || "$SCP_RC" -ne 0 || "$ANALYSIS_RC" -ne 0 || ! -f "$OUT/server/export-report.json" ]]; then
+  echo "INVALIDA: falha tecnica automatica (k6=$K6_EXIT, intervencao=${INT_RC:-NA}, export=$EXPORT_RC, scp=$SCP_RC, analise=$ANALYSIS_RC, export_report=$(test -f "$OUT/server/export-report.json" && echo presente || echo ausente))" >> "$OUT/notes.md"
+  log "EXECUCAO INVALIDA por falha tecnica; consulte notes.md"
+fi
 log "fim. Pasta: ${OUT}"
 # hashes por ULTIMO, so dos dados brutos e registros (derivados e notas ficam de fora).
 # Conferir depois, DENTRO da pasta da execucao:  sha256sum -c checksums.sha256

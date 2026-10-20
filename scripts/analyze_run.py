@@ -69,9 +69,12 @@ def load_k6(path: str):
     attempts, oks, dropped = [], [], []  # (t, failed) ; (t, ms) ; (t, n)
     with open(path, encoding="utf-8") as fh:
         for line in fh:
-            if '"type":"Point"' not in line:
+            # O JSON do k6 pode ter ou nao espacos; nao dependa da formatacao textual.
+            if not line.strip():
                 continue
             p = json.loads(line)
+            if p.get("type") != "Point":
+                continue
             m = p.get("metric")
             if m not in ("failed", "ok_duration", "dropped_iterations"):
                 continue

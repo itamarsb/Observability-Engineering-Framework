@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
     networks:
       lab:
-        ipv4_address: 172.30.0.10
+        ipv4_address: ${API_IPV4:-172.30.0.10}
     logging: *default-logging
 
   nginx:
@@ -142,7 +142,7 @@ networks:
   lab:
     ipam:
       config:
-        - subnet: 172.30.0.0/24
+        - subnet: ${LAB_DOCKER_SUBNET:-172.30.0.0/24}
 
 volumes:
   prometheus-data:

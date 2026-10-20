@@ -57,7 +57,9 @@ flowchart LR
     ROUTER -.-|Wi-Fi| SSHD
 ```
 
-O notebook e o servidor são ligados por um cabo Ethernet dedicado (`10.10.10.2` ↔ `10.10.10.1`, sem gateway), que transporta a carga, a sonda e o SSH. O Wi-Fi é usado apenas para acesso à internet e atualizações, de modo que a sua variação de latência não afeta as medições. Somente o NGINX é publicado na rede do laboratório; as interfaces administrativas só são acessíveis pelo túnel SSH.
+O notebook e o servidor são ligados por um cabo Ethernet dedicado (`10.10.10.2` ↔ `10.10.10.1`, sem gateway), que transporta a carga, a sonda e o SSH. O Wi-Fi é usado apenas para acesso à internet e atualizações, de modo que a sua variação de latência não afeta as medições. O NGINX e a unica porta de aplicacao publicada intencionalmente na rede dedicada.
+O Node Exporter usa `network_mode: host` e a porta 9100 exige verificacao de escuta e firewall;
+as interfaces administrativas sao acessiveis pelo tunel SSH.
 
 ---
 
