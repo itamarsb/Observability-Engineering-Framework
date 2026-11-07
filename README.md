@@ -46,7 +46,7 @@ O sistema observado é uma API desenvolvida em FastAPI e publicada por meio do N
 | Scripts de orquestração, exportação e análise | Versionado; pilotos pendentes |
 | Pilotos e congelamento do protocolo | Planejado |
 | Campanha experimental | Planejado |
-| Análise, teste de reimplantação e documentação final | Planejado |
+| Análise e documentação final | Planejado |
 
 ---
 
@@ -76,7 +76,7 @@ O framework só é considerado validado se houver evidências verificáveis de q
 - as perturbações produzem alterações identificáveis no consumo de CPU, de memória ou no comportamento da rede;
 - um mesmo `trace_id` leva do registro de log ao trace da mesma requisição;
 - os SLIs podem ser calculados e comparados aos SLOs definidos;
-- o ambiente pode ser reimplantado a partir deste repositório e de sua documentação.
+- o ambiente pode ser implantado por terceiros a partir deste repositório e de sua documentação passo a passo.
 
 ---
 
@@ -187,12 +187,11 @@ São metas experimentais para um ambiente de laboratório, e não garantias de p
 
 ## Desenho experimental
 
-Os cenários experimentais são identificados de C0 a C7. A mesma numeração é usada nos arquivos de parâmetros ([`experiments/scenarios/`](experiments/scenarios/)), nos identificadores das execuções e nas tabelas de resultados.
+Os cenários experimentais são identificados de C0 a C7 (o C1, de baixa carga, foi retirado do escopo). A mesma numeração é usada nos arquivos de parâmetros ([`experiments/scenarios/`](experiments/scenarios/)), nos identificadores das execuções e nas tabelas de resultados.
 
 | ID | Cenário | Demanda | Perturbação |
 |:---:|:---:|:---:|:---:|
 | C0 | Referência (baseline) | R0, cerca de 20–25% da capacidade medida | Nenhuma |
-| C1 | Baixa carga | Cerca de 5–10% da capacidade | Nenhuma |
 | C2 | Média carga | Cerca de 40–50% da capacidade | Nenhuma |
 | C3 | Alta carga | Cerca de 70–80% da capacidade | Nenhuma |
 | C4 | Contenção de CPU | R0 | `stress-ng` em todas as threads de CPU do host |
@@ -275,6 +274,17 @@ Execução de um cenário a partir do notebook (WSL2, com k6 2.3.0, Python 3 e a
 scripts/run_scenario.sh C0 r01 pilot
 ```
 
+Rampa de capacidade (pilotos) e campanha completa, com figuras e tabelas geradas a partir dos dados brutos: ver [`results/README.md`](results/README.md).
+
+```bash
+scripts/run_ramp.sh                              # rampa + Figura C10
+python3 scripts/calibrar_taxas.py --aplicar      # taxas dos cenários a partir da rampa
+python3 scripts/derive_slo.py runs/pilot --gravar  # metas a partir dos pilotos C0
+python3 scripts/run_campaign.py                  # 3 blocos × 6 cenários, retomável
+python3 scripts/revisar_execucoes.py --aplicar   # classificação pelos critérios do protocolo
+python3 scripts/gerar_resultados.py              # figuras e tabelas do artigo
+```
+
 > Os procedimentos acima estão em validação no servidor do laboratório e podem ser ajustados durante os pilotos.
 
 ---
@@ -295,7 +305,7 @@ Observability-Engineering-Framework/
 │   ├── architecture/        # diagramas de arquitetura e de fluxos (Mermaid)
 │   ├── images/              # imagem de capa e fotos da instalação
 │   ├── lab-notes/           # registros de instalação
-│   ├── runbooks/            # procedimento de implantação e reimplantação
+│   ├── runbooks/            # procedimento de implantação
 │   └── templates/           # modelos de diário de bordo e de registro do ambiente
 ├── experiments/
 │   ├── k6/                  # carga de taxa constante e rampa de capacidade
@@ -335,10 +345,9 @@ Observability-Engineering-Framework/
 - [ ] **Etapa 5** — Painéis, consultas e exportação de dados conferidos.
 - [ ] **Etapa 6** — Pilotos: rampa de capacidade, calibração das cargas, metas e limites seguros das perturbações.
 - [ ] **Etapa 7** — Congelamento do protocolo v1 (commit e tag `protocolo-v1`).
-- [ ] **Etapa 8** — Campanha: cenários C0–C6 (e C7, se mantido), três repetições cada.
+- [ ] **Etapa 8** — Campanha: cenários C0 e C2 a C6 (e C7, se mantido), três repetições cada.
 - [ ] **Etapa 9** — Análise: SLIs em relação aos SLOs, tabelas, figuras e investigação.
-- [ ] **Etapa 10** — Reimplantação a partir do repositório, como verificação de reprodutibilidade.
-- [ ] **Etapa 11** — Índice de evidências, figuras finais e tag de versão.
+- [ ] **Etapa 10** — Índice de evidências, figuras finais e tag de versão.
 
 ---
 
@@ -354,7 +363,7 @@ Nenhum resultado experimental foi publicado até o momento. A organização dos 
 - O servidor do laboratório opera em dual boot, e o gerador de carga é um notebook com WSL2.
 - A coleta de telemetria consome recursos do próprio sistema observado.
 - O FastAPI está fixado em uma versão anterior ao seu suporte nativo ao OpenTelemetry, para manter estável o desenho da instrumentação durante o projeto.
-- A reprodutibilidade é verificada no mesmo hardware.
+- A reprodução independente não faz parte do trabalho: o procedimento está documentado passo a passo para que terceiros possam realizá-la.
 
 ---
 

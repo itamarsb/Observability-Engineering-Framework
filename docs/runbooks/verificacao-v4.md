@@ -19,7 +19,7 @@ Este roteiro reúne as correções submetidas no [Pull Request #1](https://githu
 4. Testar as consultas do painel 01 com os rótulos efetivamente exportados (`job`, `http_route` e `le`).
 5. Executar k6, sonda e perturbações somente em pilotos acompanhados, verificando a remoção dos estressores.
 6. Conferir o backup, os hashes e uma restauração em volume de teste, sem alterar dados da campanha.
-7. Testar a reimplantação em uma sub-rede distinta (proposta: `172.31.0.0/24`), sem colisão com a infraestrutura original.
+7. ~~Testar a reimplantação em uma sub-rede distinta~~ (retirado do escopo: a reprodução fica a cargo de terceiros, com base na documentação).
 8. Registrar as cargas, os critérios de validade e recuperação e as metas do protocolo antes da campanha definitiva.
 
 ## Critérios de análise

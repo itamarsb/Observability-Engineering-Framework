@@ -242,7 +242,7 @@ flowchart LR
 
     subgraph MEAS["Medição e análise"]
         direction TB
-        S8["Etapa 8<br/>campanha: C0–C6 (+C7)<br/>3 blocos, 3 repetições"] --> S9["Etapa 9<br/>análise: SLIs × SLOs"] --> S10["Etapa 10<br/>reimplantação a partir do repositório"] --> S11["Etapa 11<br/>índice de evidências e figuras finais"]
+        S8["Etapa 8<br/>campanha: C0 e C2–C6 (+C7)<br/>3 blocos, 3 repetições"] --> S9["Etapa 9<br/>análise: SLIs × SLOs"] --> S10["Etapa 10<br/>índice de evidências e figuras finais"]
     end
 
     S2 --> S3
