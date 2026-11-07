@@ -23,7 +23,6 @@
 | ID | Cenário | Demanda | Perturbação | Script / parâmetros |
 |---|---|---|---|---|
 | C0 | Referência (baseline) | R0 ≈ 20–25% da capacidade | Nenhuma | [`C0.env`](scenarios/C0.env) |
-| C1 | Baixa carga | ≈ 5–10% da capacidade | Nenhuma | [`C1.env`](scenarios/C1.env) |
 | C2 | Média carga | ≈ 40–50% da capacidade | Nenhuma | [`C2.env`](scenarios/C2.env) |
 | C3 | Alta carga | ≈ 70–80% da capacidade | Nenhuma | [`C3.env`](scenarios/C3.env) |
 | C4 | Contenção de CPU | R0 | `stress-ng --cpu 0 --cpu-load <piloto>` no host inteiro | [`tcc2-cpu.sh`](stress-ng/tcc2-cpu.sh) |
@@ -39,9 +38,9 @@ O início e o fim das perturbações são registrados pelo próprio servidor e a
 
 | Bloco | Ordem |
 |---|---|
-| 1 | C0, C1, C2, C3, C4, C5, C6 |
-| 2 | C2, C4, C6, C1, C3, C0, C5 |
-| 3 | C5, C3, C1, C6, C0, C2, C4 |
+| 1 | C0, C2, C3, C4, C5, C6 |
+| 2 | C2, C4, C6, C3, C0, C5 |
+| 3 | C5, C3, C6, C0, C2, C4 |
 
 O C7, se mantido, é executado ao final de cada bloco, porque reinicia a API.
 

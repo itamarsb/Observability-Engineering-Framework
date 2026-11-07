@@ -1,7 +1,7 @@
 # Implantacao do framework (runbook) - TCC2
 
-Este roteiro e o usado na Etapa 10 (reimplantacao). Anote TODO passo que precisar de
-intervencao manual nao descrita aqui: isso e resultado da secao 4.8 do artigo.
+Roteiro de implantacao, documentado passo a passo para permitir a reproducao por terceiros.
+Anote TODO passo que precisar de intervencao manual nao descrita aqui.
 
 ## Pre-requisitos no servidor
 - Ubuntu Server 26.04 LTS atualizado; Docker Engine + plugin Compose (repositorio oficial).
@@ -21,7 +21,7 @@ intervencao manual nao descrita aqui: isso e resultado da secao 4.8 do artigo.
 9. `docker compose ps` (todos "running"/"healthy") e prova de correlacao (Etapa 4B).
 10. `sudo bash scripts/install_server_scripts.sh itamar` (intervencoes + sudoers).
 
-## Reimplantacao isolada (Etapa 10)
+## Segunda instalacao isolada no mesmo servidor (opcional, para quem for reproduzir)
 No clone novo, use um `.env` independente com `LAB_DOCKER_SUBNET=172.31.0.0/24`
 e `API_IPV4=172.31.0.10` (ou outra faixa livre conferida no Docker),
 porque `docker compose stop` nao exclui a rede original 172.30.0.0/24.

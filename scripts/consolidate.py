@@ -54,19 +54,21 @@ def main() -> int:
                   "identifique a repeticao definitiva e invalide a substituida")
             return 2
         seen.add(key)
-        extra = {}
+        # taxa ofertada e tipo vem do manifesto (necessarios para a Figura 3 e a Tabela 2)
+        extra = {"taxa_ofertada_rps": manifest.get("rate_rps"), "tipo": manifest.get("kind")}
         sj = os.path.join(run, "analysis", "summary.json")
         if os.path.exists(sj):
             s = json.load(open(sj, encoding="utf-8"))
-            extra = {"delta_p95_ms": s.get("delta_p95_ms"), "recuperacao_s": s.get("recuperacao_s"),
-                     "recuperacao_status": s.get("recuperacao_status")}
+            extra.update({"delta_p95_ms": s.get("delta_p95_ms"), "recuperacao_s": s.get("recuperacao_s"),
+                          "recuperacao_status": s.get("recuperacao_status")})
         for r in csv.DictReader(open(ph, encoding="utf-8")):
             rows.append({**r, **extra})
     if not rows:
         print("nenhuma execucao analisada encontrada")
         return 1
+    campos = list(dict.fromkeys(k for r in rows for k in r))  # uniao das colunas, na ordem
     with open(os.path.join(dst, "summary-runs.csv"), "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=campos)
         w.writeheader()
         w.writerows(rows)
     groups: dict[tuple, list] = {}

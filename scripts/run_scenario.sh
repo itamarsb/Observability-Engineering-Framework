@@ -2,10 +2,9 @@
 # scripts/run_scenario.sh - executa UMA execucao do protocolo (roda no WSL do notebook,
 # a partir da raiz do repositorio clonado no WSL).
 #
-# Uso:  scripts/run_scenario.sh <CENARIO> <REPETICAO> [pilot|campaign|repro]
+# Uso:  scripts/run_scenario.sh <CENARIO> <REPETICAO> [pilot|campaign]
 #   ex.: scripts/run_scenario.sh C0 r01 pilot
 #        scripts/run_scenario.sh C4 r02 campaign
-#        COMMON_ENV=experiments/scenarios/common-repro.env scripts/run_scenario.sh C0 r01 repro
 # Interromper com seguranca: Ctrl+C (para k6, sonda e medidores e tenta parar estressores).
 #
 # O que faz, em ordem:
@@ -20,7 +19,7 @@ set -euo pipefail
 SCEN="${1:?uso: run_scenario.sh C0 r01 [pilot|campaign]}"
 REP="${2:?informe a repeticao, ex.: r01}"
 KIND="${3:-campaign}"
-[[ "$KIND" == pilot || "$KIND" == campaign || "$KIND" == repro ]] || { echo "tipo deve ser pilot, campaign ou repro"; exit 2; }
+[[ "$KIND" == pilot || "$KIND" == campaign ]] || { echo "tipo deve ser pilot ou campaign"; exit 2; }
 COMMON_ENV="${COMMON_ENV:-experiments/scenarios/common.env}"
 [[ -f "$COMMON_ENV" && -f "experiments/scenarios/${SCEN}.env" ]] \
   || { echo "execute na raiz do repositorio; ${COMMON_ENV} ou cenario ${SCEN} inexistente"; exit 2; }
@@ -120,7 +119,8 @@ PY
 # ---------- 3. medidores externos e carga ----------
 HOST=$(python3 -c "import urllib.parse,sys; print(urllib.parse.urlsplit('$BASE_URL').hostname)")
 ping -D -i 1 "$HOST" > "$OUT/ping.txt" 2>&1 & PING_PID=$!
-vmstat -n 5 > "$OUT/notebook-vmstat.txt" 2>&1 & VMSTAT_PID=$!
+# -t com TZ=UTC: cada linha leva o horario UTC (CPU do gerador alinhavel as fases)
+TZ=UTC vmstat -n -t 5 > "$OUT/notebook-vmstat.txt" 2>&1 & VMSTAT_PID=$!
 python3 scripts/probe.py --base-url "$BASE_URL" --n "$N" --expected-digest "$EXPECTED_DIGEST" \
   --run-id "$RUN_ID" --out "$OUT/probe.csv" --interval "$PROBE_INTERVAL_S" \
   --timeout "$PROBE_TIMEOUT_S" --duration "$((TOTAL_S + 20))" 2> "$OUT/probe.log" & PROBE_PID=$!
