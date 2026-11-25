@@ -239,7 +239,7 @@ Cuidados metodológicos:
 
 Os digests das imagens e o lock completo das dependências (`app/requirements.lock`) são registrados após o primeiro build no servidor do laboratório.
 
-Evidências da instalação: [notas de instalação do Ubuntu Server](docs/lab-notes/ubuntu-server-installation.md).
+Evidências da instalação: [notas de instalação do Ubuntu Server](docs/lab-notes/ubuntu-server-installation.pt-BR.md).
 
 ---
 

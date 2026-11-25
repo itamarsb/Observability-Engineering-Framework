@@ -1,5 +1,7 @@
 # Ubuntu Server Installation
 
+**Language:** **English (US)** | [Português (Brasil)](ubuntu-server-installation.pt-BR.md)
+
 ## Objective
 
 Prepare the laboratory environment for the Observability Engineering Framework.
@@ -116,3 +118,7 @@ hostnamectl
 ```
 
 ![After](../images/Ubuntu_Server_20.jpg)
+
+---
+
+[Return to the documentation index](../README.en.md)
