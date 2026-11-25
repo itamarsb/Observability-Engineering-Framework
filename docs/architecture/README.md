@@ -1,5 +1,7 @@
 # Arquitetura e fluxos de trabalho
 
+**Idioma:** **Português (Brasil)** | [English (US)](README.en.md)
+
 Diagramas do framework, escritos em [Mermaid](https://mermaid.js.org/) e renderizados diretamente pelo GitHub. Eles descrevem o desenho planejado e serão atualizados para a configuração efetivamente implantada após a etapa de integração (Etapa 4B).
 
 O diagrama geral está no [README](../../README.md#arquitetura) principal.
@@ -253,3 +255,7 @@ flowchart LR
 ```
 
 Uma etapa só começa depois que a anterior cumpre o seu critério de saída, registrado no diário de bordo. Metas, cargas e janelas são congeladas antes da campanha; qualquer mudança posterior gera uma nova versão do protocolo, em vez de alterar a anterior.
+
+---
+
+[Retornar ao índice da documentação](../README.md)

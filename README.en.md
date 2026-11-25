@@ -118,7 +118,7 @@ flowchart LR
 
 Solid arrows represent requests and telemetry sent by their producers (HTTP and OTLP), as well as data retrieved by Grafana from each back end (PromQL, LogQL, and TraceQL). Dashed arrows represent metrics collected by Prometheus through scraping. Prometheus does not receive logs or traces. Perturbations affect the host CPU and memory (scenarios C4 and C5), the NGINX container's network (C6), or the API container (C7). These scenarios are described in [Experimental Design](#experimental-design).
 
-Detailed diagrams of the topology, telemetry pipeline, request flow, run orchestration, and evaluation stages are available in [`docs/architecture/`](docs/architecture/).
+Detailed diagrams of the topology, telemetry pipeline, request flow, run orchestration, and evaluation stages are available in [`docs/architecture/`](docs/architecture/README.en.md).
 
 | Address | Service | Access |
 |:---:|:---:|:---:|
