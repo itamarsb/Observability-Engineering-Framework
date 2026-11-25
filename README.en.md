@@ -261,7 +261,7 @@ docker compose up -d collector node-exporter
 docker compose ps
 ```
 
-- Complete, ordered procedure: [`docs/runbooks/deployment.md`](docs/runbooks/deployment.md).
+- Complete, ordered procedure: [`docs/runbooks/deployment.en.md`](docs/runbooks/deployment.en.md).
 - Before the campaign, consult the [repository audit](docs/runbooks/auditoria-repositorio-2026-10-20.md) and the [pre-pilot verification checklist](docs/runbooks/verificacao-v4.md).
 - **Results:** the `consolidate.py` script includes only runs with `- Classificacao final: VALIDA` in `notes.md`, after human review against the protocol criteria.
 

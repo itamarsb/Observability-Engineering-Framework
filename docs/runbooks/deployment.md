@@ -1,5 +1,7 @@
 # Implantacao do framework (runbook) - TCC2
 
+**Idioma:** **Português (Brasil)** | [English (US)](deployment.en.md)
+
 Roteiro de implantacao, documentado passo a passo para permitir a reproducao por terceiros.
 Anote TODO passo que precisar de intervencao manual nao descrita aqui.
 
@@ -42,3 +44,7 @@ sudo bash -c 'PID=$(docker inspect -f "{{.State.Pid}}" $(docker ps -q --filter l
 
 ## Desligar sem perder dados
 `docker compose stop` (NUNCA `docker compose down -v`, que apaga os volumes).
+
+---
+
+[Retornar ao índice da documentação](../README.md)
