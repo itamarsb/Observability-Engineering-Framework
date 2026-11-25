@@ -13,7 +13,7 @@
 
 </div>
 
-> **English summary:** Undergraduate final project in Computer Engineering. An open-source observability framework (FastAPI instrumented with OpenTelemetry, OpenTelemetry Collector, Prometheus, Loki, Tempo and Grafana) deployed with Docker Compose on a low-cost lab server and evaluated with k6 workloads and controlled perturbations (stress-ng and tc netem). The application, the observability stack and the experiment code are versioned; the deployment on the lab server and the experiments are being prepared. No experimental results have been published yet.
+**Idioma:** **Português (Brasil)** | [English (US)](README.en.md)
 
 ---
 

@@ -1,5 +1,7 @@
 # Documentação
 
+**Idioma:** **Português (Brasil)** | [English (US)](README.en.md)
+
 Documentação técnica do Observability Engineering Framework.
 
 | Seção | Conteúdo |
@@ -14,3 +16,7 @@ Material relacionado fora deste diretório:
 
 - Desenho experimental: [`../experiments/experimental-matrix.md`](../experiments/experimental-matrix.md) e [`../experiments/scenarios/protocol-v1.md`](../experiments/scenarios/protocol-v1.md)
 - Organização dos resultados e das evidências: [`../results/README.md`](../results/README.md)
+
+---
+
+[Retornar à página principal do projeto](../README.md)
