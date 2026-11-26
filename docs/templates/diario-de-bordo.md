@@ -1,5 +1,7 @@
 # Diario de bordo - sessao de ____/____/2026 (UTC ____ a ____)
 
+**Idioma:** **Português (Brasil)** | [English (US)](diario-de-bordo.en.md)
+
 - Etapa e objetivo da sessao:
 - Estado inicial (commit, servicos ativos, offset de relogio):
 - Comandos executados / arquivos alterados (copie do terminal):
@@ -8,3 +10,7 @@
 - Problema encontrado e solucao (ou pendencia):
 - Criterio de saida da etapa atendido? Sim / Nao / Parcial - por que:
 - Proxima acao concreta:
+
+---
+
+[Retornar ao índice da documentação](../README.md)

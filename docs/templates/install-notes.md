@@ -1,5 +1,7 @@
 # Registro do ambiente (Etapas 0 e 1)
 
+**Idioma:** **Português (Brasil)** | [English (US)](install-notes.en.md)
+
 - Data UTC:
 - Decisao: reaproveitar Ubuntu 26.04 instalado / reinstalar - justificativa:
 - Hostname / usuario: observabilitylab / itamar
@@ -11,3 +13,7 @@
 - Relogio: chrony sincronizado? offset inicial ____ s
 - Docker / Compose (versoes):
 - Acesso verificado: login local e SSH (sim/nao)
+
+---
+
+[Retornar ao índice da documentação](../README.md)
