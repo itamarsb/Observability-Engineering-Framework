@@ -274,7 +274,7 @@ Run a scenario from the laptop (WSL2, with k6 2.3.0, Python 3, and key-based SSH
 scripts/run_scenario.sh C0 r01 pilot
 ```
 
-For the capacity ramp (pilot runs) and the complete campaign, including figures and tables generated from raw data, see [`results/README.md`](results/README.md).
+For the capacity ramp (pilot runs) and the complete campaign, including figures and tables generated from raw data, see [`results/README.en.md`](results/README.en.md).
 
 ```bash
 scripts/run_ramp.sh                              # ramp + Figure C10
@@ -355,7 +355,7 @@ Observability-Engineering-Framework/
 
 ## Results
 
-No experimental results have been published to date. The organization of run data, summaries, and evidence is described in [`results/README.md`](results/README.md).
+No experimental results have been published to date. The organization of run data, summaries, and evidence is described in [`results/README.en.md`](results/README.en.md).
 
 ---
 

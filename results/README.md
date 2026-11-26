@@ -1,5 +1,7 @@
 # Resultados
 
+**Idioma:** **Português (Brasil)** | [English (US)](README.en.md)
+
 Nenhum resultado experimental foi publicado até o momento. Os pilotos servem apenas para calibrar parâmetros e não são apresentados como resultados.
 
 ## Organização dos dados
@@ -51,3 +53,7 @@ python3 -m unittest discover -s tests -v
 ```
 
 Os testes usam execuções **sintéticas** geradas por [`tests/synthetic_runs.py`](../tests/synthetic_runs.py), no mesmo formato da bancada, para verificar revisão, calibração, análise, figuras, tabelas, a geração de resultados e o executor da campanha sem Docker, k6 ou servidor. Dados sintéticos são marcados no manifesto (`"synthetic": true`) e saem sempre com marca d'água nas figuras e prefixo `SINTETICO_` nas tabelas; não existe opção para remover essa marcação.
+
+---
+
+[Retornar ao índice da documentação](../docs/README.md)

@@ -15,7 +15,7 @@ Technical documentation for the Observability Engineering Framework.
 Related documentation outside this directory:
 
 - Experimental design: [`../experiments/experimental-matrix.en.md`](../experiments/experimental-matrix.en.md) and [experimental protocol (English reference)](../experiments/scenarios/protocol-v1.en.md) ([authoritative Portuguese version](../experiments/scenarios/protocol-v1.md))
-- Organization of results and evidence: [`../results/README.md`](../results/README.md)
+- Organization of results and evidence: [`../results/README.en.md`](../results/README.en.md)
 
 ---
 
