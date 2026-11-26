@@ -1,5 +1,7 @@
 # Verificação pré-piloto — revisão v4
 
+**Idioma:** **Português (Brasil)** | [English (US)](verificacao-v4.en.md)
+
 Este roteiro reúne as correções submetidas no [Pull Request #1](https://github.com/itamarsb/Observability-Engineering-Framework/pull/1) e as verificações necessárias antes da campanha definitiva. Os testes sintáticos e com dados sintéticos foram executados na preparação da revisão. **A integração no Mini PC ainda não foi testada.**
 
 ## Alterações a conferir
@@ -27,3 +29,7 @@ Este roteiro reúne as correções submetidas no [Pull Request #1](https://githu
 A latência considera respostas corretas; os erros são contabilizados separadamente. Cada cenário exige três repetições válidas, e os pilotos não entram nos resultados definitivos. A rotina automática identifica algumas falhas técnicas; a avaliação de `dropped_iterations`, taxa de carga efetiva, cobertura da sonda e coerência do estresse aplicado deve constar em `notes.md`.
 
 Em caso de evidência insuficiente, mantenha a classificação `PENDENTE`. Registre o motivo de `INVALIDA` antes de repetir um ensaio. Nenhum cenário está homologado para a campanha apenas por passar nos testes offline.
+
+---
+
+[Retornar ao índice da documentação](../README.md)

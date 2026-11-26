@@ -262,7 +262,7 @@ docker compose ps
 ```
 
 - Complete, ordered procedure: [`docs/runbooks/deployment.en.md`](docs/runbooks/deployment.en.md).
-- Before the campaign, consult the [repository audit](docs/runbooks/auditoria-repositorio-2026-10-20.en.md) and the [pre-pilot verification checklist](docs/runbooks/verificacao-v4.md).
+- Before the campaign, consult the [repository audit](docs/runbooks/auditoria-repositorio-2026-10-20.en.md) and the [pre-pilot verification checklist](docs/runbooks/verificacao-v4.en.md).
 - **Results:** the `consolidate.py` script includes only runs with `- Classificacao final: VALIDA` in `notes.md`, after human review against the protocol criteria.
 
 - To access Grafana from the laptop, run `ssh -N -L 3000:127.0.0.1:3000 <usuario>@<servidor>` and open `http://localhost:3000`. Replace `<usuario>` and `<servidor>` with the SSH username and server address.
