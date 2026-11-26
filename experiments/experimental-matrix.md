@@ -1,5 +1,7 @@
 # Matriz experimental
 
+**Idioma:** **Português (Brasil)** | [English (US)](experimental-matrix.en.md)
+
 **Situação:** rascunho. Demandas, intensidades e metas são calibradas nos pilotos e congeladas em [`scenarios/protocol-v1.md`](scenarios/protocol-v1.md) antes da campanha. Os valores aproximados abaixo são pontos de partida, e não resultados.
 
 ## Condições comuns
@@ -58,3 +60,7 @@ O C7, se mantido, é executado ao final de cada bloco, porque reinicia a API.
 - Memória disponível mantida em pelo menos 2 GiB; disco livre em pelo menos 20 GiB.
 - Temperatura máxima definida após os pilotos.
 - Uma execução que ultrapassar um limite é abortada, mantida e marcada como inválida.
+
+---
+
+[Retornar ao índice da documentação](../docs/README.md)

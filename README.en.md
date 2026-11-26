@@ -201,7 +201,7 @@ Experimental scenarios are identified as C0 through C7 (C1, the low-load scenari
 
 R0 is the reference workload: the same arrival rate used in C0 is applied to scenarios C4 through C7, so that the perturbation is the only difference from the baseline.
 
-Server capacity is measured before the scenarios using a stepped load ramp ([`experiments/k6/ramp.js`](experiments/k6/ramp.js)). Workload levels, perturbation intensities, and targets are calibrated during the pilot runs and then frozen. See [`experiments/experimental-matrix.md`](experiments/experimental-matrix.md) for details.
+Server capacity is measured before the scenarios using a stepped load ramp ([`experiments/k6/ramp.js`](experiments/k6/ramp.js)). Workload levels, perturbation intensities, and targets are calibrated during the pilot runs and then frozen. See [`experiments/experimental-matrix.en.md`](experiments/experimental-matrix.en.md) for details.
 
 Methodological safeguards:
 
