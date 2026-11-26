@@ -1,5 +1,7 @@
 # Auditoria do repositório e preparação dos pilotos — 20/10/2026
 
+**Idioma:** **Português (Brasil)** | [English (US)](auditoria-repositorio-2026-10-20.en.md)
+
 **Escopo e referência.** A auditoria inicial examinou a cópia `Observability-Engineering-Framework-main(2).zip` e a comparou com o kit de laboratório v4 e o Manual de Bancada v3.1. Em seguida, os arquivos modificados foram conferidos com a branch `main` e publicados para revisão no [Pull Request #1](https://github.com/itamarsb/Observability-Engineering-Framework/pull/1), na branch `fix/tcc2-pre-piloto`. As verificações foram estáticas e com dados sintéticos; não houve ensaio de integração no Mini PC.
 
 ## Alterações técnicas incorporadas
@@ -61,3 +63,7 @@ As alterações iniciais foram publicadas em 20/10/2026 no [Pull Request #1](htt
 - Mantenha o PR em rascunho até completar as verificações da seção anterior no laboratório.
 - Evite versionar `.env`, credenciais, `runs/` e resultados brutos que contenham informações sensíveis.
 - Em mudanças posteriores, confira a revisão do protocolo e o registro de evidências antes de atualizar os arquivos.
+
+---
+
+[Retornar ao índice da documentação](../README.md)
