@@ -172,7 +172,7 @@ The computation is deterministic: the expected digest is calculated outside the 
 | Successful throughput | k6 | Correct responses per second, compared against the offered arrival rate |
 | Sampled availability | External probe | Successful probes divided by total probes, evaluated only when probe coverage is 100% |
 
-Targets are recorded in [`experiments/scenarios/protocol-v1.md`](experiments/scenarios/protocol-v1.md) **before** the campaign and are not changed after the results are known:
+Targets are recorded in [the authoritative protocol (`experiments/scenarios/protocol-v1.md`)](experiments/scenarios/protocol-v1.md) ([English reference translation](experiments/scenarios/protocol-v1.en.md)) **before** the campaign and are not changed after the results are known:
 
 - composite error rate ≤ 1%;
 - sampled availability ≥ 99% in each measurement window;

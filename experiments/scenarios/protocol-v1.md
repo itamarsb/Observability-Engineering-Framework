@@ -1,5 +1,9 @@
 # Protocolo experimental - versao v1 (CONGELADO em ____/____/2026, commit ________)
 
+**Idioma:** **Português (Brasil)** | [English (US)](protocol-v1.en.md)
+
+> **Nota de internacionalização:** este é o protocolo de referência utilizado pelos scripts de automação. A tradução em inglês é informativa e deve ser sincronizada após a calibração e antes da publicação do protocolo congelado. Em caso de divergência, prevalece este arquivo original.
+
 Preencha TODOS os campos antes da 1a execucao definitiva. Mudou algo? Crie protocol-v2.md,
 registre o motivo e repita os cenarios afetados. Nao altere metas depois de ver resultados.
 

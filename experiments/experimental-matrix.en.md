@@ -2,7 +2,7 @@
 
 **Language:** [Português (Brasil)](experimental-matrix.md) | **English (US)**
 
-**Status:** draft. Workload levels, perturbation intensities, and targets are calibrated during the pilot runs and frozen in [`scenarios/protocol-v1.md`](scenarios/protocol-v1.md) before the experimental campaign. The approximate values below are starting points, not results.
+**Status:** draft. Workload levels, perturbation intensities, and targets are calibrated during the pilot runs and frozen in [the authoritative protocol (`scenarios/protocol-v1.md`)](scenarios/protocol-v1.md) ([English reference translation](scenarios/protocol-v1.en.md)) before the experimental campaign. The approximate values below are starting points, not results.
 
 ## Common conditions
 
