@@ -8,7 +8,7 @@ Technical documentation for the Observability Engineering Framework.
 |---|---|
 | [`architecture/`](architecture/README.en.md) | Architecture and workflow diagrams: laboratory topology, telemetry pipeline, request flow, experimental run phases and orchestration, data flow, and evaluation stages |
 | [`lab-notes/`](lab-notes/) | Installation and environment records ([Ubuntu Server installation](lab-notes/ubuntu-server-installation.md)) |
-| [`runbooks/`](runbooks/) | Operational procedures ([deployment and redeployment](runbooks/deployment.en.md)) |
+| [`runbooks/`](runbooks/) | Operational procedures ([deployment and redeployment](runbooks/deployment.en.md)); historical record of [files reviewed for pre-pilot v4](runbooks/arquivos-alterados-v4.en.md) |
 | [`templates/`](templates/) | [Lab logbook](templates/diario-de-bordo.en.md) and [environment record](templates/install-notes.en.md) templates |
 | [`images/`](images/) | Cover image and installation photographs |
 

@@ -1,5 +1,7 @@
 # Arquivos revisados para o pré-piloto — v4
 
+**Idioma:** **Português (Brasil)** | [English (US)](arquivos-alterados-v4.en.md)
+
 Este registro identifica os arquivos propostos no [Pull Request #1](https://github.com/itamarsb/Observability-Engineering-Framework/pull/1) em relação à branch `main` na abertura da revisão: **12 modificados e 4 adicionados**. O histórico do PR contém os detalhes por commit. Os testes de integração no Mini PC continuam pendentes.
 
 ## Aplicação e coleta
@@ -29,3 +31,7 @@ Este registro identifica os arquivos propostos no [Pull Request #1](https://gith
 | `docs/runbooks/arquivos-alterados-v4.md` | Este inventário de alterações **(novo)** |
 
 As alterações foram verificadas por leitura, validação sintática e testes offline. A aprovação do protocolo experimental depende dos testes reais previstos nos runbooks.
+
+---
+
+[Retornar ao índice da documentação](../README.md)
