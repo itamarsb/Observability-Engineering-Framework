@@ -313,7 +313,8 @@ Observability-Engineering-Framework/
 │   ├── k6/                  # constant-arrival-rate workload and capacity ramp
 │   ├── scenarios/           # C0–C7 parameters and experimental protocol
 │   ├── stress-ng/           # perturbation scripts: CPU, memory, network, and API shutdown
-│   └── experimental-matrix.md
+│   ├── experimental-matrix.md
+│   └── experimental-matrix.en.md
 ├── results/                 # consolidated summaries and evidence index
 ├── scripts/                 # orchestration, probing, export, analysis, and plots
 ├── tcc/                     # academic documents, after final assessment

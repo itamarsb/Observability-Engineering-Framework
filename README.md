@@ -124,7 +124,7 @@ Diagramas detalhados da topologia, do pipeline de telemetria, do percurso de uma
 |:---:|:---:|:---:|
 | `LAB_BIND_IP:8080` | NGINX, ponto de entrada único | Gerador de carga e sonda, pela rede dedicada do laboratório |
 | `127.0.0.1:3000` / `9090` / `3100` / `3200` | Grafana / Prometheus / Loki / Tempo | Somente no servidor; a partir do notebook, por túnel SSH |
-| Rede do host `:9100` | Node Exporter | Coletado pelo Prometheus; por usar `network_mode: host`, requer verificacao de firewall/bind antes de conectar a redes nao isoladas |
+| Rede do host `:9100` | Node Exporter | Coletado pelo Prometheus; por usar `network_mode: host`, requer verificação do firewall e das interfaces de escuta antes de conectar a redes não isoladas |
 | `collector:4318`, `tempo:4317` | OTLP | Somente na rede interna do Compose |
 
 ---
@@ -311,7 +311,8 @@ Observability-Engineering-Framework/
 │   ├── k6/                  # carga de taxa constante e rampa de capacidade
 │   ├── scenarios/           # parâmetros de C0–C7 e protocolo experimental
 │   ├── stress-ng/           # scripts de perturbação: CPU, memória, rede e parada da API
-│   └── experimental-matrix.md
+│   ├── experimental-matrix.md
+│   └── experimental-matrix.en.md
 ├── results/                 # resumos consolidados e índice de evidências
 ├── scripts/                 # orquestração, sonda, exportação, análise e gráficos
 ├── tcc/                     # documentos acadêmicos, após a avaliação final

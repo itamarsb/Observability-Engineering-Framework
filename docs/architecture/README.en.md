@@ -14,7 +14,7 @@ The overall diagram is available in the main [README](../../README.en.md#archite
 | 4 | [Run phases](#4-run-phases) | Time windows for load and perturbation scenarios |
 | 5 | [Run orchestration](#5-run-orchestration) | What the orchestrator does, from initial checks to checksums |
 | 6 | [Data and evidence flow](#6-data-and-evidence-flow) | From raw run data to tables, figures, and the paper |
-| 7 | [Implementation and evaluation stages](#7-implementation-and-evaluation-stages) | Stages 0 through 11 and the protocol freeze |
+| 7 | [Implementation and evaluation stages](#7-implementation-and-evaluation-stages) | Stages 0 through 10 and the protocol freeze |
 
 ---
 
@@ -59,7 +59,7 @@ flowchart LR
     ROUTER -.-|Wi-Fi| SSHD
 ```
 
-The laptop and server are connected by a dedicated Ethernet cable (`10.10.10.2` ↔ `10.10.10.1`, with no gateway), which carries the workload, probe traffic, and SSH traffic. Wi-Fi is used only for internet access and updates so that its latency variations do not affect measurements. NGINX is the only application port intentionally published on the dedicated network.
+The laptop and server are connected by a dedicated Ethernet cable (`10.10.10.2` ↔ `10.10.10.1`, with no gateway), which carries the workload, probe traffic, and SSH traffic. Wi-Fi is used only for internet access and updates so that its latency variations do not affect measurements. NGINX is the only application HTTP entry point intentionally published on the dedicated network.
 
 Node Exporter uses `network_mode: host`, and port 9100 requires verification of listening interfaces and firewall rules; administrative interfaces are accessible through the SSH tunnel.
 
@@ -146,7 +146,7 @@ The same `trace_id` appears in the request trace (Tempo) and log (Loki), making 
 
 ```mermaid
 flowchart TB
-    subgraph LOAD["C0–C3 · load scenarios · 240 s"]
+    subgraph LOAD["C0, C2–C3 · load scenarios · 240 s"]
         direction LR
         W1["Warm-up<br/>60 s<br/>excluded"] --> M1["Measurement phase<br/>180 s"]
     end

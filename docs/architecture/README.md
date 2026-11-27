@@ -14,7 +14,7 @@ O diagrama geral está no [README](../../README.md#arquitetura) principal.
 | 4 | [Fases de uma execução](#4-fases-de-uma-execução) | Janelas de tempo dos cenários de carga e de perturbação |
 | 5 | [Orquestração de uma execução](#5-orquestração-de-uma-execução) | O que o orquestrador faz, das verificações iniciais às somas de verificação |
 | 6 | [Fluxo de dados e evidências](#6-fluxo-de-dados-e-evidências) | Dos dados brutos de cada execução às tabelas, figuras e ao artigo |
-| 7 | [Etapas de implementação e avaliação](#7-etapas-de-implementação-e-avaliação) | Etapas 0 a 11 e o congelamento do protocolo |
+| 7 | [Etapas de implementação e avaliação](#7-etapas-de-implementação-e-avaliação) | Etapas 0 a 10 e o congelamento do protocolo |
 
 ---
 
@@ -59,9 +59,9 @@ flowchart LR
     ROUTER -.-|Wi-Fi| SSHD
 ```
 
-O notebook e o servidor são ligados por um cabo Ethernet dedicado (`10.10.10.2` ↔ `10.10.10.1`, sem gateway), que transporta a carga, a sonda e o SSH. O Wi-Fi é usado apenas para acesso à internet e atualizações, de modo que a sua variação de latência não afeta as medições. O NGINX e a unica porta de aplicacao publicada intencionalmente na rede dedicada.
-O Node Exporter usa `network_mode: host` e a porta 9100 exige verificacao de escuta e firewall;
-as interfaces administrativas sao acessiveis pelo tunel SSH.
+O notebook e o servidor são ligados por um cabo Ethernet dedicado (`10.10.10.2` ↔ `10.10.10.1`, sem gateway), que transporta a carga, a sonda e o SSH. O Wi-Fi é usado apenas para acesso à internet e atualizações, de modo que a sua variação de latência não afeta as medições. O NGINX é o único ponto de entrada HTTP da aplicação publicado intencionalmente na rede dedicada.
+O Node Exporter usa `network_mode: host` e a porta 9100 exige verificação de escuta e firewall;
+as interfaces administrativas são acessíveis pelo túnel SSH.
 
 ---
 
@@ -146,7 +146,7 @@ O mesmo `trace_id` aparece no trace (Tempo) e no log (Loki) da requisição, e �
 
 ```mermaid
 flowchart TB
-    subgraph LOAD["C0–C3 · cenários de carga · 240 s"]
+    subgraph LOAD["C0, C2–C3 · cenários de carga · 240 s"]
         direction LR
         W1["Aquecimento<br/>60 s<br/>descartado"] --> M1["Fase útil<br/>180 s"]
     end
